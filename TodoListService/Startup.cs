@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace TodoListService
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IHostingEnvironment env)
         {
@@ -34,12 +34,7 @@ namespace TodoListService
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Configure the app to use OAuth Bearer Authentication
-            app.UseOAuthBearerAuthentication(options =>
-            {
-                options.Audience = Configuration.Get("AzureAd:Audience");
-                options.Authority = String.Format(Configuration.Get("AzureAd:AadInstance"), Configuration.Get("AzureAd:Tenant"));
-            });
+            ConfigureAuth(app);
 
             app.UseStaticFiles();
             // Add MVC to the request pipeline.
