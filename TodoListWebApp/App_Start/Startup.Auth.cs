@@ -18,6 +18,7 @@ namespace TodoListWebApp
         public static string AppKey = String.Empty;
         public static string TodoListResourceId = String.Empty;
         public static string TodoListBaseAddress = String.Empty;
+        public static string GraphResourceId = String.Empty;
 
         public void ConfigureAuth(IApplicationBuilder app)
         {
@@ -27,6 +28,7 @@ namespace TodoListWebApp
             AppKey = Configuration.Get("AzureAd:AppKey");
             TodoListResourceId = Configuration.Get("AzureAd:TodoListResourceId");
             TodoListBaseAddress = Configuration.Get("AzureAd:TodoListBaseAddress");
+            GraphResourceId = Configuration.Get("AzureAd:GraphResourceId");
 
             // Configure the Session Middleware, Used for Storing Tokens
             app.UseSession();
@@ -47,13 +49,12 @@ namespace TodoListWebApp
 
         public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedNotification notification)
         {
-            // Acquire a Token for the TodoList Web API, and Cache it For Later Use
+            // Acquire a Token for the Graph API and cache it.  In the TodoListController, we'll use the cache to acquire a token to the Todo List API
             string userObjectId = notification.AuthenticationTicket.Principal.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
             ClientCredential clientCred = new ClientCredential(ClientId, AppKey);
             AuthenticationContext authContext = new AuthenticationContext(Authority, new NaiveSessionCache(userObjectId, notification.HttpContext.Session));
             AuthenticationResult authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(
-                notification.Code, new Uri(notification.RedirectUri), clientCred, Startup.TodoListResourceId);
-
+                notification.Code, new Uri(notification.RedirectUri), clientCred, Startup.GraphResourceId);
         }
     }
 }

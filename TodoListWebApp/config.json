@@ -6,6 +6,7 @@
 		"AadInstance": "https://login.windows.net/{0}", // This is the public instance of Azure AD
 		"PostLogoutRedirectUri": "https://localhost:44322/",
 		"TodoListResourceId": "[Enter App ID URI of TodoListService, e.g. https://contoso.onmicrosoft.com/TodoListService]",
-		"TodoListBaseAddress":  "https://localhost:44321"
+		"TodoListBaseAddress": "https://localhost:44321",
+		"GraphResourceId":  "https://graph.windows.net"
 	}
 }
