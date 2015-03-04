@@ -20,7 +20,7 @@
 		"Microsoft.Framework.Logging.Console": "1.0.0-beta3",
 		"Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta3",
 		"Microsoft.AspNet.Security.OpenIdConnect": "1.0.0-beta3",
-		"Microsoft.IdentityModel.Clients.ActiveDirectory": "3.0.202252344.0-alpha",
+		"Microsoft.IdentityModel.Clients.ActiveDirectory": "3.1.203031538-alpha",
 		"Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta3",
 		"Microsoft.AspNet.Session": "1.0.0-beta3"
 
