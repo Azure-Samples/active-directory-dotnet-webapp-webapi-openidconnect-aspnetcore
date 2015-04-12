@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Threading.Tasks;
 using TodoListWebApp.Utils;
+using Microsoft.IdentityModel.Protocols;
 
 namespace TodoListWebApp
 {
@@ -42,9 +43,17 @@ namespace TodoListWebApp
                 options.PostLogoutRedirectUri = Configuration.Get("AzureAd:PostLogoutRedirectUri");
                 options.Notifications = new OpenIdConnectAuthenticationNotifications
                 {
-                    AuthorizationCodeReceived = OnAuthorizationCodeReceived
+                    AuthorizationCodeReceived = OnAuthorizationCodeReceived,
+                    AuthenticationFailed = OnAuthenticationFailed
                 };
             });
+        }
+
+        private Task OnAuthenticationFailed(AuthenticationFailedNotification<OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> notification)
+        {
+            notification.HandleResponse();
+            notification.Response.Redirect("/Home/Error?message=" + notification.Exception.Message);
+            return Task.FromResult(0);
         }
 
         public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedNotification notification)

@@ -26,8 +26,9 @@ namespace TodoListWebApp.Controllers
             return View();
         }
 
-        public IActionResult Error()
+        public IActionResult Error(string message)
         {
+            ViewBag.Message = message;
             return View("~/Views/Shared/Error.cshtml");
         }
     }
