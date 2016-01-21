@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Security.OpenIdConnect;
+using Microsoft.AspNet.Authentication.OpenIdConnect;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Authorization;
 using TodoListWebApp.Models;
 using TodoListWebApp.Utils;
 

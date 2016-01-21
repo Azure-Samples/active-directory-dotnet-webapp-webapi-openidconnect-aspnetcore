@@ -4,19 +4,18 @@ using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
-using Microsoft.AspNet.Security.Cookies;
+using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using TodoListWebApp.Models;
-using Microsoft.AspNet.Security;
-using Microsoft.AspNet.Security.OpenIdConnect;
-using Microsoft.AspNet.Security.Notifications;
+using Microsoft.AspNet.Authentication;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Globalization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using TodoListWebApp.Utils;
 
 namespace TodoListWebApp

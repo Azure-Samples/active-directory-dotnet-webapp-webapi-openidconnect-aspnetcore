@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Security;
-using Microsoft.AspNet.Security.Cookies;
-using Microsoft.AspNet.Security.Notifications;
-using Microsoft.AspNet.Security.OpenIdConnect;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.AspNet.Authentication;
+using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Threading.Tasks;

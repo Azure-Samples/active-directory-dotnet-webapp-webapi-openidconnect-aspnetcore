@@ -1,50 +1,46 @@
 ﻿{
-	"webroot": "wwwroot",
-	"version": "1.0.0-*",
-	"dependencies": {
-		"Microsoft.AspNet.Mvc": "6.0.0-beta3",
-		"Microsoft.AspNet.Diagnostics": "1.0.0-beta3",
-		"Microsoft.AspNet.Security.Cookies": "1.0.0-beta3",
-		"Microsoft.AspNet.Server.IIS": "1.0.0-beta3",
-		"Microsoft.AspNet.Server.WebListener": "1.0.0-beta3",
-		"Microsoft.AspNet.StaticFiles": "1.0.0-beta3",
-		"Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta3",
-		"Microsoft.Framework.CodeGenerators.Mvc": "1.0.0-beta3",
-		"Microsoft.Framework.Logging": "1.0.0-beta3",
-		"Microsoft.Framework.Logging.Console": "1.0.0-beta3",
-		"Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta3",
-		"Microsoft.AspNet.Security.OpenIdConnect": "1.0.0-beta3",
-		"Microsoft.IdentityModel.Clients.ActiveDirectory": "3.1.203031538-alpha",
-		"Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta3",
-		"Microsoft.AspNet.Session": "1.0.0-beta3"
-
-	},
-	"commands": {
-		"web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
-		"gen": "Microsoft.Framework.CodeGeneration",
-		"ef": "EntityFramework.Commands"
-	},
-	"frameworks": {
-		"aspnet50": { },
-		"aspnetcore50": {
-			"dependencies": {
-			}
-		}
-	},
-	"exclude": [
-		"wwwroot",
-		"node_modules",
-		"bower_components"
-	],
-	"bundleExclude": [
-		"node_modules",
-		"bower_components",
-		"**.xproj",
-		"**.user",
-		"**.vspscc"
-	],
-	"scripts": {
-		"postrestore": [ "npm install" ],
-		"prepare": [ "grunt bower:install" ]
-	}
+    "webroot": "wwwroot",
+    "version": "1.0.0-*",
+    "dependencies": {
+        "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
+        "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
+        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+        "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
+        "Microsoft.AspNet.Server.WebListener": "1.0.0-rc1-final",
+        "Microsoft.AspNet.Session": "1.0.0-rc1-final",
+        "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
+        "Microsoft.IdentityModel.Clients.ActiveDirectory": "3.6.212041202-alpha",
+        "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
+        "Microsoft.AspNet.Authentication.OpenIdConnect": "1.0.0-rc1-final",
+        "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
+        "Microsoft.Extensions.CodeGenerators.Mvc": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final"
+    },
+    "commands": {
+        "web": "Microsoft.AspNet.Hosting server=Microsoft.AspNet.Server.WebListener server.urls=https://+:44301",
+        "gen": "Microsoft.Framework.CodeGeneration",
+        "ef": "EntityFramework.Commands"
+    },
+    "frameworks": {
+        "dnx451": { },
+        "dnxcore50": { }
+    },
+    "exclude": [
+        "wwwroot",
+        "node_modules",
+        "bower_components"
+    ],
+    "bundleExclude": [
+        "node_modules",
+        "bower_components",
+        "**.xproj",
+        "**.user",
+        "**.vspscc"
+    ],
+    "scripts": {
+        "postrestore": [ "npm install" ],
+        "prepare": [ "grunt bower:install" ]
+    }
 }

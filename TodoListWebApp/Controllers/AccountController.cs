@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.Http.Security;
+﻿using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Security.Cookies;
-using Microsoft.AspNet.Security.OpenIdConnect;
+using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authentication.OpenIdConnect;
 using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860

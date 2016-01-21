@@ -5,6 +5,7 @@ using Microsoft.AspNet.Mvc;
 using System.Security.Claims;
 using TodoListService.Models;
 using System.Collections.Concurrent;
+using Microsoft.AspNet.Authorization;
 
 namespace TodoListService.Controllers
 {

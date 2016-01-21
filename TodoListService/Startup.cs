@@ -3,13 +3,14 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.AspNet.Security.OAuthBearer;
-using Microsoft.AspNet.Security;
+using Microsoft.AspNet.Authentication.JwtBearer;
+using Microsoft.AspNet.Authentication;
 using System.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TodoListService
 {
