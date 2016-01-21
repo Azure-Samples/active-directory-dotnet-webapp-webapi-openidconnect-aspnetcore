@@ -22,12 +22,12 @@ namespace TodoListWebApp
         public void ConfigureAuth(IApplicationBuilder app)
         {
             // Populate AzureAd Configuration Values
-            Authority = String.Format(Configuration.Get("AzureAd:AadInstance"), Configuration.Get("AzureAd:Tenant"));
-            ClientId = Configuration.Get("AzureAd:ClientId");
-            AppKey = Configuration.Get("AzureAd:AppKey");
-            TodoListResourceId = Configuration.Get("AzureAd:TodoListResourceId");
-            TodoListBaseAddress = Configuration.Get("AzureAd:TodoListBaseAddress");
-            GraphResourceId = Configuration.Get("AzureAd:GraphResourceId");
+            Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
+            ClientId = Configuration["AzureAd:ClientId"];
+            AppKey = Configuration["AzureAd:AppKey"];
+            TodoListResourceId = Configuration["AzureAd:TodoListResourceId"];
+            TodoListBaseAddress = Configuration["AzureAd:TodoListBaseAddress"];
+            GraphResourceId = Configuration["AzureAd:GraphResourceId"];
 
             // Configure the Session Middleware, Used for Storing Tokens
             app.UseSession();
@@ -36,9 +36,9 @@ namespace TodoListWebApp
             app.UseCookieAuthentication(options => { });
             app.UseOpenIdConnectAuthentication(options =>
             {
-                options.ClientId = Configuration.Get("AzureAd:ClientId");
+                options.ClientId = Configuration["AzureAd:ClientId"];
                 options.Authority = Authority;
-                options.PostLogoutRedirectUri = Configuration.Get("AzureAd:PostLogoutRedirectUri");
+                options.PostLogoutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"];
                 options.Notifications = new OpenIdConnectAuthenticationNotifications
                 {
                     AuthorizationCodeReceived = OnAuthorizationCodeReceived,
