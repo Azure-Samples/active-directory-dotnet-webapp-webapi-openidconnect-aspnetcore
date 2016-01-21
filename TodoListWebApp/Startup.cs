@@ -56,7 +56,8 @@ namespace TodoListWebApp
         {
             // Configure the HTTP request pipeline.
             // Add the console logger.
-            loggerfactory.AddConsole();
+            loggerfactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerfactory.AddDebug();
 
             // Add the following to the request pipeline only in development environment.
             if (env.IsDevelopment())

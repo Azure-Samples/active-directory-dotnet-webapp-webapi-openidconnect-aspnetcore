@@ -1,4 +1,4 @@
-﻿{
+{
     "webroot": "wwwroot",
     "version": "1.0.0-*",
     "dependencies": {
@@ -16,7 +16,8 @@
         "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
         "Microsoft.Extensions.CodeGenerators.Mvc": "1.0.0-rc1-final",
         "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final"
+        "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final"
     },
     "commands": {
         "web": "Microsoft.AspNet.Hosting server=Microsoft.AspNet.Server.WebListener server.urls=https://+:44301",
