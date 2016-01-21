@@ -39,8 +39,8 @@ namespace TodoListWebApp
             services.AddMvc();
 
             // Add Session Middleware
-            services.AddCachingServices();
-            services.AddSessionServices();
+            services.AddCaching();
+            services.AddSession();
 
             // Add Cookie Middleware
             services.Configure<SharedAuthenticationOptions>(options =>
@@ -61,13 +61,13 @@ namespace TodoListWebApp
             if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
             {
                 app.UseBrowserLink();
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 // Add Error handling middleware which catches all application specific errors and
                 // send the request to the following path or controller action.
-                app.UseErrorHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
             // Configure the OpenIdConnect Auth Pipeline and required services.
