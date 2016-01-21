@@ -14,7 +14,7 @@ namespace TodoListWebApp.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
-            if (Context.User == null || !Context.User.Identity.IsAuthenticated)
+            if (HttpContext.User == null || !HttpContext.User.Identity.IsAuthenticated)
                 return new ChallengeResult(OpenIdConnectAuthenticationDefaults.AuthenticationType, new AuthenticationProperties { RedirectUri = "/" });
             return RedirectToAction("Index", "Home");
         }
@@ -23,8 +23,7 @@ namespace TodoListWebApp.Controllers
         [HttpGet]
         public IActionResult LogOff()
         {
-            if (Context.User.Identity.IsAuthenticated)
-                Context.Response.SignOut(new List<string>()
+            if (HttpContext.User.Identity.IsAuthenticated)
                 {
                     OpenIdConnectAuthenticationDefaults.AuthenticationType,
                     CookieAuthenticationDefaults.AuthenticationType

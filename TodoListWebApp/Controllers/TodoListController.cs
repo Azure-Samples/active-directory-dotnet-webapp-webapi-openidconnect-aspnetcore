@@ -30,8 +30,8 @@ namespace TodoListWebApp.Controllers
 
             try
             {
-                string userObjectID = Context.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-                AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, Context.Session));
+                string userObjectID = HttpContext.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+                AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, HttpContext.Session));
                 ClientCredential credential = new ClientCredential(Startup.ClientId, Startup.AppKey);
                 result = await authContext.AcquireTokenSilentAsync(Startup.TodoListResourceId, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
 
@@ -65,7 +65,7 @@ namespace TodoListWebApp.Controllers
                 else
                 {
                     //
-                    // If the call failed with access denied, then drop the current access token from the cache, 
+                    // If the call failed with access denied, then drop the current access token from the cache,
                     //     and show the user an error indicating they might need to sign-in again.
                     //
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -84,7 +84,7 @@ namespace TodoListWebApp.Controllers
             }
             catch (Exception ee)
             {
-                if (Context.Request.Query["reauth"] == "True")
+                if (HttpContext.Request.Query["reauth"] == "True")
                 {
                     //
                     // Send an OpenID Connect sign-in request to get a new set of tokens.
@@ -125,8 +125,8 @@ namespace TodoListWebApp.Controllers
 
                 try
                 {
-                    string userObjectID = Context.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-                    AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, Context.Session));
+                    string userObjectID = HttpContext.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+                    AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, HttpContext.Session));
                     ClientCredential credential = new ClientCredential(Startup.ClientId, Startup.AppKey);
                     result = await authContext.AcquireTokenSilentAsync(Startup.TodoListResourceId, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
 
@@ -152,7 +152,7 @@ namespace TodoListWebApp.Controllers
                     else
                     {
                         //
-                        // If the call failed with access denied, then drop the current access token from the cache, 
+                        // If the call failed with access denied, then drop the current access token from the cache,
                         //     and show the user an error indicating they might need to sign-in again.
                         //
                         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
