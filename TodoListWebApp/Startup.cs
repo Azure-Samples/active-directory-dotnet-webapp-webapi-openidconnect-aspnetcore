@@ -74,6 +74,8 @@ namespace TodoListWebApp
             // Configure the OpenIdConnect Auth Pipeline and required services.
             ConfigureAuth(app);
 
+            app.UseStaticFiles();
+
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
