@@ -59,7 +59,7 @@ namespace TodoListWebApp
             loggerfactory.AddConsole();
 
             // Add the following to the request pipeline only in development environment.
-            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
+            if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
@@ -81,12 +81,14 @@ namespace TodoListWebApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Home}/{action=Index}/{id?}");
 
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
