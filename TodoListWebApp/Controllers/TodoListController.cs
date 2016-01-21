@@ -20,7 +20,7 @@ namespace TodoListWebApp.Controllers
     [Authorize]
     public class TodoListController : Controller
     {
-        
+
 
         // GET: /TodoList/
         public async Task<IActionResult> Index()
@@ -91,7 +91,7 @@ namespace TodoListWebApp.Controllers
                     // If the user still has a valid session with Azure AD, they will not be prompted for their credentials.
                     // The OpenID Connect middleware will return to this controller after the sign-in response has been handled.
                     //
-                    return new ChallengeResult(OpenIdConnectAuthenticationDefaults.AuthenticationType);
+                    return new ChallengeResult(OpenIdConnectDefaults.AuthenticationScheme);
                 }
 
                 //

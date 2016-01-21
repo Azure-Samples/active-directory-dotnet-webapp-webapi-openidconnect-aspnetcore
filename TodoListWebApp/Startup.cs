@@ -43,10 +43,11 @@ namespace TodoListWebApp
             services.AddSessionServices();
 
             // Add Cookie Middleware
-            services.Configure<ExternalAuthenticationOptions>(options =>
+            services.Configure<SharedAuthenticationOptions>(options =>
             {
-                options.SignInAsAuthenticationType = CookieAuthenticationDefaults.AuthenticationType;
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             });
+
         }
 
         // Configure is called after ConfigureServices is called.
