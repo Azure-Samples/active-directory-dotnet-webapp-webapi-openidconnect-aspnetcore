@@ -39,22 +39,22 @@ namespace TodoListWebApp
                 options.ClientId = Configuration["AzureAd:ClientId"];
                 options.Authority = Authority;
                 options.PostLogoutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"];
-                options.Notifications = new OpenIdConnectAuthenticationNotifications
+                options.Events = new OpenIdConnectEvents
                 {
-                    AuthorizationCodeReceived = OnAuthorizationCodeReceived,
-                    AuthenticationFailed = OnAuthenticationFailed
+                    OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
+                    OnAuthenticationFailed = OnAuthenticationFailed
                 };
             });
         }
 
-        private Task OnAuthenticationFailed(AuthenticationFailedNotification<OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> notification)
+        private Task OnAuthenticationFailed(AuthenticationFailedContext notification)
         {
             notification.HandleResponse();
             notification.Response.Redirect("/Home/Error?message=" + notification.Exception.Message);
             return Task.FromResult(0);
         }
 
-        public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedNotification notification)
+        public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext notification)
         {
             // Acquire a Token for the Graph API and cache it.  In the TodoListController, we'll use the cache to acquire a token to the Todo List API
             string userObjectId = notification.AuthenticationTicket.Principal.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
