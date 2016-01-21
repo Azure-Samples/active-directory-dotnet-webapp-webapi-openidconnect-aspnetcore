@@ -33,7 +33,11 @@ namespace TodoListWebApp
             app.UseSession();
 
             // Configure OpenId Connect Authentication Middleware
-            app.UseCookieAuthentication(options => { });
+            app.UseCookieAuthentication(options =>
+            {
+                options.AutomaticAuthenticate = true;
+            });
+
             app.UseOpenIdConnectAuthentication(options =>
             {
                 options.ClientId = Configuration["AzureAd:ClientId"];
