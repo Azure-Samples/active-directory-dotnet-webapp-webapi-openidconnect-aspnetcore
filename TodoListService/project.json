@@ -1,18 +1,17 @@
 {
-    /* Click to learn more about project.json  http://go.microsoft.com/fwlink/?LinkID=517074 */
     "webroot": "wwwroot",
-    "version": "1.0.0-*", 
+    "version": "1.0.0-*",
     "dependencies": {
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta3",
-        "Microsoft.AspNet.Mvc": "6.0.0-beta3",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-beta3",
-        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta3",
-		"Microsoft.AspNet.Security.OAuthBearer": "1.0.0-beta3",
-        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta3"
+        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+        "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
+        "Microsoft.AspNet.Server.WebListener": "1.0.0-rc1-final",
+        "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
+        "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final"
     },
     "frameworks": {
-        "aspnet50": { },
-        "aspnetcore50": { }
+        "dnx451": { },
+        "dnxcore50": { }
     },
     "exclude": [
         "wwwroot",
@@ -22,8 +21,11 @@
     "bundleExclude": [
         "node_modules",
         "bower_components",
-        "**.kproj",
+        "**.xproj",
         "**.user",
         "**.vspscc"
-    ]
+    ],
+    "commands": {
+        "web": "Microsoft.AspNet.Hosting server=Microsoft.AspNet.Server.WebListener server.urls=https://+:44303"
+    }
 }

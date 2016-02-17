@@ -4,19 +4,18 @@ using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
-using Microsoft.AspNet.Security.Cookies;
+using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using TodoListWebApp.Models;
-using Microsoft.AspNet.Security;
-using Microsoft.AspNet.Security.OpenIdConnect;
-using Microsoft.AspNet.Security.Notifications;
+using Microsoft.AspNet.Authentication;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Globalization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using TodoListWebApp.Utils;
 
 namespace TodoListWebApp
@@ -26,12 +25,13 @@ namespace TodoListWebApp
         public Startup(IHostingEnvironment env)
         {
             // Setup configuration sources.
-            Configuration = new Configuration()
+            Configuration = new ConfigurationBuilder()
                 .AddJsonFile("config.json")
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .Build();
         }
 
-        public IConfiguration Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
@@ -40,14 +40,15 @@ namespace TodoListWebApp
             services.AddMvc();
 
             // Add Session Middleware
-            services.AddCachingServices();
-            services.AddSessionServices();
+            services.AddCaching();
+            services.AddSession();
 
             // Add Cookie Middleware
-            services.Configure<ExternalAuthenticationOptions>(options =>
+            services.Configure<SharedAuthenticationOptions>(options =>
             {
-                options.SignInAsAuthenticationType = CookieAuthenticationDefaults.AuthenticationType;
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             });
+
         }
 
         // Configure is called after ConfigureServices is called.
@@ -55,35 +56,40 @@ namespace TodoListWebApp
         {
             // Configure the HTTP request pipeline.
             // Add the console logger.
-            loggerfactory.AddConsole();
+            loggerfactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerfactory.AddDebug();
 
             // Add the following to the request pipeline only in development environment.
-            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
+            if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 // Add Error handling middleware which catches all application specific errors and
                 // send the request to the following path or controller action.
-                app.UseErrorHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
             // Configure the OpenIdConnect Auth Pipeline and required services.
             ConfigureAuth(app);
+
+            app.UseStaticFiles();
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Home}/{action=Index}/{id?}");
 
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

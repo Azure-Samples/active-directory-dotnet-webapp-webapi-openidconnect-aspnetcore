@@ -3,13 +3,14 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.AspNet.Security.OAuthBearer;
-using Microsoft.AspNet.Security;
+using Microsoft.AspNet.Authentication.JwtBearer;
+using Microsoft.AspNet.Authentication;
 using System.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TodoListService
 {
@@ -18,11 +19,13 @@ namespace TodoListService
         public Startup(IHostingEnvironment env)
         {
             // Setup configuration sources.
-            Configuration = new Configuration()
-                .AddJsonFile("config.json");
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables()
+                .Build();
         }
 
-        public IConfiguration Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by a runtime.
         // Use this method to add services to the container
@@ -42,9 +45,11 @@ namespace TodoListService
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

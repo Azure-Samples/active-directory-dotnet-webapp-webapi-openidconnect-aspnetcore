@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Security;
-using Microsoft.AspNet.Security.Cookies;
-using Microsoft.AspNet.Security.Notifications;
-using Microsoft.AspNet.Security.OpenIdConnect;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.AspNet.Authentication;
+using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Threading.Tasks;
@@ -24,39 +22,43 @@ namespace TodoListWebApp
         public void ConfigureAuth(IApplicationBuilder app)
         {
             // Populate AzureAd Configuration Values
-            Authority = String.Format(Configuration.Get("AzureAd:AadInstance"), Configuration.Get("AzureAd:Tenant"));
-            ClientId = Configuration.Get("AzureAd:ClientId");
-            AppKey = Configuration.Get("AzureAd:AppKey");
-            TodoListResourceId = Configuration.Get("AzureAd:TodoListResourceId");
-            TodoListBaseAddress = Configuration.Get("AzureAd:TodoListBaseAddress");
-            GraphResourceId = Configuration.Get("AzureAd:GraphResourceId");
+            Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
+            ClientId = Configuration["AzureAd:ClientId"];
+            AppKey = Configuration["AzureAd:AppKey"];
+            TodoListResourceId = Configuration["AzureAd:TodoListResourceId"];
+            TodoListBaseAddress = Configuration["AzureAd:TodoListBaseAddress"];
+            GraphResourceId = Configuration["AzureAd:GraphResourceId"];
 
             // Configure the Session Middleware, Used for Storing Tokens
             app.UseSession();
 
             // Configure OpenId Connect Authentication Middleware
-            app.UseCookieAuthentication(options => { });
+            app.UseCookieAuthentication(options =>
+            {
+                options.AutomaticAuthenticate = true;
+            });
+
             app.UseOpenIdConnectAuthentication(options =>
             {
-                options.ClientId = Configuration.Get("AzureAd:ClientId");
+                options.ClientId = Configuration["AzureAd:ClientId"];
                 options.Authority = Authority;
-                options.PostLogoutRedirectUri = Configuration.Get("AzureAd:PostLogoutRedirectUri");
-                options.Notifications = new OpenIdConnectAuthenticationNotifications
+                options.PostLogoutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"];
+                options.Events = new OpenIdConnectEvents
                 {
-                    AuthorizationCodeReceived = OnAuthorizationCodeReceived,
-                    AuthenticationFailed = OnAuthenticationFailed
+                    OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
+                    OnAuthenticationFailed = OnAuthenticationFailed
                 };
             });
         }
 
-        private Task OnAuthenticationFailed(AuthenticationFailedNotification<OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> notification)
+        private Task OnAuthenticationFailed(AuthenticationFailedContext notification)
         {
             notification.HandleResponse();
             notification.Response.Redirect("/Home/Error?message=" + notification.Exception.Message);
             return Task.FromResult(0);
         }
 
-        public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedNotification notification)
+        public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext notification)
         {
             // Acquire a Token for the Graph API and cache it.  In the TodoListController, we'll use the cache to acquire a token to the Todo List API
             string userObjectId = notification.AuthenticationTicket.Principal.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
