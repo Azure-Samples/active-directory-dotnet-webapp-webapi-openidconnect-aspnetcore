@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Security.OpenIdConnect;
-using Microsoft.Framework.ConfigurationModel;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +9,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TodoListWebApp.Models;
 using TodoListWebApp.Utils;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Authentication.OpenIdConnect;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,8 +29,8 @@ namespace TodoListWebApp.Controllers
 
             try
             {
-                string userObjectID = Context.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-                AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, Context.Session));
+                string userObjectID = (User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier"))?.Value;
+                AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, HttpContext.Session));
                 ClientCredential credential = new ClientCredential(Startup.ClientId, Startup.AppKey);
                 result = await authContext.AcquireTokenSilentAsync(Startup.TodoListResourceId, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
 
@@ -83,14 +83,14 @@ namespace TodoListWebApp.Controllers
             }
             catch (Exception ee)
             {
-                if (Context.Request.Query["reauth"] == "True")
+                if (HttpContext.Request.Query["reauth"] == "True")
                 {
                     //
                     // Send an OpenID Connect sign-in request to get a new set of tokens.
                     // If the user still has a valid session with Azure AD, they will not be prompted for their credentials.
                     // The OpenID Connect middleware will return to this controller after the sign-in response has been handled.
                     //
-                    return new ChallengeResult(OpenIdConnectAuthenticationDefaults.AuthenticationType);
+                    return new ChallengeResult(OpenIdConnectDefaults.AuthenticationScheme);
                 }
 
                 //
@@ -124,8 +124,8 @@ namespace TodoListWebApp.Controllers
 
                 try
                 {
-                    string userObjectID = Context.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-                    AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, Context.Session));
+                    string userObjectID = (User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier"))?.Value;
+                    AuthenticationContext authContext = new AuthenticationContext(Startup.Authority, new NaiveSessionCache(userObjectID, HttpContext.Session));
                     ClientCredential credential = new ClientCredential(Startup.ClientId, Startup.AppKey);
                     result = await authContext.AcquireTokenSilentAsync(Startup.TodoListResourceId, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
 

@@ -1,7 +1,7 @@
 ﻿{
-	"AzureAd": {
-		"AadInstance": "https://login.microsoftonline.com/{0}",
-		"Tenant": "[Enter tenant name, e.g. contoso.onmicrosoft.com]",
-		"Audience": "[Enter App ID URI of TodoListService, e.g. https://contoso.onmicrosoft.com/TodoListService]"
-	}
+    "AzureAd": {
+        "AadInstance": "https://login.microsoftonline.com/{0}",
+        "Tenant": "[Enter tenant name, e.g. contoso.onmicrosoft.com]",
+        "Audience": "[Enter App ID URI of TodoListService, e.g. https://contoso.onmicrosoft.com/TodoListService]"
+    }
 }

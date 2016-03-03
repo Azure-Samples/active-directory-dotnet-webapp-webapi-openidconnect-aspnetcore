@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TodoListService", "TodoListService\TodoListService.kproj", "{299B1F6A-1BF6-4496-9770-463B2C318DF5}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TodoListService", "TodoListService\TodoListService.xproj", "{299B1F6A-1BF6-4496-9770-463B2C318DF5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TodoListWebApp", "TodoListWebApp\TodoListWebApp.kproj", "{82B515AC-B9D8-41F9-8E87-78838FC35B0F}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TodoListWebApp", "TodoListWebApp\TodoListWebApp.xproj", "{82B515AC-B9D8-41F9-8E87-78838FC35B0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

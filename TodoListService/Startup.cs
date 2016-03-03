@@ -1,25 +1,21 @@
 ﻿using System;
+using Microsoft.AspNet.Authentication.JwtBearer;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.ConfigurationModel;
-using Microsoft.AspNet.Security.OAuthBearer;
-using Microsoft.AspNet.Security;
-using System.IdentityModel.Tokens;
-using System.Collections.Generic;
-using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TodoListService
 {
-    public partial class Startup
+    public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup()
         {
             // Setup configuration sources.
-            Configuration = new Configuration()
-                .AddJsonFile("config.json");
+            Configuration = new ConfigurationBuilder()
+               .AddJsonFile("config.json")
+               .AddEnvironmentVariables()
+               .Build();
         }
 
         public IConfiguration Configuration { get; set; }
@@ -28,15 +24,27 @@ namespace TodoListService
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add MVC services to the services container.
             services.AddMvc();
+
+            // Add Authentication services.
+            services.AddAuthentication();
         }
 
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            ConfigureAuth(app);
-
             app.UseStaticFiles();
+
+            // Configure the app to use Jwt Bearer Authentication
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAD:Tenant"]),
+                Audience = Configuration["AzureAd:audience"],
+            });
+
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
