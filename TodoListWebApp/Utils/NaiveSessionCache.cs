@@ -26,7 +26,7 @@ namespace TodoListWebApp.Utils
         {
             lock (FileLock)
             {   
-                this.Deserialize((byte[])Session.Get(CacheId));
+                this.Deserialize(Session.Get(CacheId));
             }
         }
 
