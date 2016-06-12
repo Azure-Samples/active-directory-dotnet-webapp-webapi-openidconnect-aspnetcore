@@ -9,6 +9,8 @@ This sample shows how to build an MVC web application that uses Azure AD for sig
 
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
+> Looking for previous versions of this code sample? Check out the tags on the [releases](../../releases) GitHub page.
+
 ## How To Run This Sample
 
 To run this sample you will need:

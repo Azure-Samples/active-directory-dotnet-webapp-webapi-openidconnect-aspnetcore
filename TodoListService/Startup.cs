@@ -1,40 +1,43 @@
 ﻿using System;
-using Microsoft.AspNet.Authentication.JwtBearer;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace TodoListService
 {
     public class Startup
     {
-        public Startup()
+        public Startup(IHostingEnvironment env)
         {
             // Setup configuration sources.
             Configuration = new ConfigurationBuilder()
-               .AddJsonFile("config.json")
-               .AddEnvironmentVariables()
-               .Build();
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
         }
 
-        public IConfiguration Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; set; }
 
-        // This method gets called by a runtime.
-        // Use this method to add services to the container
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add MVC services to the services container.
+            // Add framework services.
             services.AddMvc();
 
             // Add Authentication services.
             services.AddAuthentication();
         }
 
-        // Configure is called after ConfigureServices is called.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseStaticFiles();
+            // Add the console logger.
+            loggerFactory.AddConsole(LogLevel.Debug);
 
             // Configure the app to use Jwt Bearer Authentication
             app.UseJwtBearerAuthentication(new JwtBearerOptions
@@ -42,17 +45,16 @@ namespace TodoListService
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAD:Tenant"]),
-                Audience = Configuration["AzureAd:audience"],
+                Audience = Configuration["AzureAd:Audience"],
             });
 
-            // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
