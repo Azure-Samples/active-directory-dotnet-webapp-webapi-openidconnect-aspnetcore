@@ -28,7 +28,6 @@ namespace TodoListWebApp
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
                 .Build();
         }
 
