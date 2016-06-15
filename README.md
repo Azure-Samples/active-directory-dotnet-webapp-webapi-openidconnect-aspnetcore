@@ -71,7 +71,7 @@ There are two projects in this sample.  Each needs to be separately registered i
 #### Configure the TodoListService project
 
 1. Open the solution in Visual Studio 2015.
-2. Open the `config.json` file.
+2. Open the `appsettings.json` file.
 3. Find the `Tenant` property and replace the value with your AAD tenant name, e.g. contoso.onmicrosoft.com.
 4. Find the `Audience` property and replace the value with the App ID URI you registered earlier, for example `https://<your_tenant_name>/TodoListService`.
 
