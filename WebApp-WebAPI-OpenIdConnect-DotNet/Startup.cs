@@ -77,6 +77,7 @@ namespace TodoListWebApp
                 ClientId = ClientId,
                 Authority = Authority,
                 PostLogoutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"],
+                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
                 GetClaimsFromUserInfoEndpoint = false,
                 
                 Events = new OpenIdConnectEvents
