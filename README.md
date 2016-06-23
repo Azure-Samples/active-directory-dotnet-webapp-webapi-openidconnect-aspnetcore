@@ -4,7 +4,7 @@ platforms: dotnet
 author: dstrockis
 ---
 
-# Calling a web API in an ASP.NET 5 web application using Azure AD
+# Calling a web API in an ASP.NET Core web application using Azure AD
 This sample shows how to build an MVC web application that uses Azure AD for sign-in using the OpenID Connect protocol, and then calls a web API under the signed-in user's identity using tokens obtained via OAuth 2.0. This sample uses the OpenID Connect ASP.Net OWIN middleware and ADAL .Net running on ASP.NET 5.
 
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
@@ -78,7 +78,7 @@ There are two projects in this sample.  Each needs to be separately registered i
 3. Find the `Tenant` property and replace the value with your AAD tenant name, e.g. contoso.onmicrosoft.com.
 4. Find the `Audience` property and replace the value with the App ID URI you registered earlier, for example `https://<your_tenant_name>/TodoListService`.
 
-#### Configure the WebApp-WebAPI-OpenIDCOnnect-DotNet project
+#### Configure the TodoListWebApp project
 
 1. Open the solution in Visual Studio 2015.
 2. Open the `appsettings.json` file.
