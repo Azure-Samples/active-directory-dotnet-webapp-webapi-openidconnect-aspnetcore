@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -77,12 +78,12 @@ namespace TodoListWebApp
                 ClientId = ClientId,
                 Authority = Authority,
                 PostLogoutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"],
-                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+                ResponseType = OpenIdConnectResponseType.CodeIdToken,
                 GetClaimsFromUserInfoEndpoint = false,
                 
                 Events = new OpenIdConnectEvents
                 {
-                    OnAuthenticationFailed = OnAuthenticationFailed,
+                    OnRemoteFailure = OnAuthenticationFailed,
                     OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
                 }
             });
@@ -110,10 +111,10 @@ namespace TodoListWebApp
         }
 
         // Handle sign-in errors differently than generic errors.
-        private Task OnAuthenticationFailed(AuthenticationFailedContext context)
+        private Task OnAuthenticationFailed(FailureContext context)
         {
             context.HandleResponse();
-            context.Response.Redirect("/Home/Error?message=" + context.Exception.Message);
+            context.Response.Redirect("/Home/Error?message=" + context.Failure.Message);
             return Task.FromResult(0);
         }
     }

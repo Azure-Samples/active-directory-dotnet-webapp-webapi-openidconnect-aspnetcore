@@ -5,18 +5,16 @@ author: dstrockis
 ---
 
 # Calling a web API in an ASP.NET Core web application using Azure AD
-This sample shows how to build an MVC web application that uses Azure AD for sign-in using the OpenID Connect protocol, and then calls a web API under the signed-in user's identity using tokens obtained via OAuth 2.0. This sample uses the OpenID Connect ASP.Net OWIN middleware and ADAL .Net running on ASP.NET 5.
+This sample shows how to build an MVC web application that uses Azure AD for sign-in using the OpenID Connect protocol, and then calls a web API under the signed-in user's identity using tokens obtained via OAuth 2.0. This sample uses the OpenID Connect ASP.Net middleware and ADAL .Net running on ASP.NET Core.
 
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
-> This sample has finally been updated to ASP.NET Core RC2.  Looking for previous versions of this code sample? Check out the tags on the [releases](../../releases) GitHub page.
+> This sample has finally been updated to ASP.NET Core 1.0.  Looking for previous versions of this code sample? Check out the tags on the [releases](../../releases) GitHub page.
 
 ## How To Run This Sample
 
 Getting started is simple!  To run this sample you will need:
-- [.NET Core & .NET Core SDK RC2 releases](https://www.microsoft.com/net/download)
-- [ASP.NET Core RC2 release](https://blogs.msdn.microsoft.com/webdev/2016/05/16/announcing-asp-net-core-rc2/)
-- [Visual Studio 2015 Update 2](https://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx)
+- Install .NET Core for Windows by following the instructions at [dot.net/core](https://dot.net/core), which will include Visual Studio 2015 Update 3.
 - An Internet connection
 - An Azure subscription (a free trial is sufficient)
 
