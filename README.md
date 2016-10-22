@@ -38,6 +38,8 @@ There are two projects in this sample.  Each needs to be separately registered i
 5. Enter a friendly name for the application, for example 'TodoListService' and select 'Web Application and/or Web API' as the Application Type. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44351`. Click on **Create** to create the application.
 6. While still in the Azure portal, choose your application, click on **Settings** and choose **Properties**.
 7. Find the Application ID value and copy it to the clipboard.
+8. If using the the new [Azure portal](https://portal.azure.com), you will need to edit the manifest to correct the App Uri. Click the Manifest icon, then click Edit. Change 'identifierUris' to use a value of `https://<your_tenant_name>/TodoListService`. Click Save.
+9. If using the [Classic Azure portal](https://manage.windowsazure.com), you can change the App Uri by clicking Configure and then changing the App Id URI under single sign-on to a value of `https://<your_tenant_name>/TodoListService`. Click Save.
 
 #### Register the TodoListWebApp web application
 
@@ -50,7 +52,7 @@ There are two projects in this sample.  Each needs to be separately registered i
 7. Find the Application ID value and copy it to the clipboard.
 8. On the same page, change the `Logout Url` property to `https://localhost:44371/Account/EndSession`.  This is the default single sign out URL for this sample. 
 9. From the Settings menu, choose **Keys** and add a key - select a key duration of either 1 year or 2 years. When you save this page, the key value will be displayed, copy and save the value in a safe location - you will need this key later to configure the project in Visual Studio - this key value will not be displayed again, nor retrievable by any other means, so please record it as soon as it is visible from the Azure Portal.
-10. Configure Permissions for your application - in the Settings menu, choose the 'Required permissions' section, click on **Add**, then **Select an API**, and type 'TodoListService' in the textbox. Then, click on  **Select Permissions** and select 'Access TodoListService'.
+10. Configure Permissions for your application - in the Settings menu, choose the 'Required permissions' section, click on **Add**, then **Select an API**, and type 'TodoListService' in the textbox. Then, click on  **Select Permissions** and select 'Access TodoListService'. If the service is not found, try using the Application Id for the TodoListService. If the TodoListService cannot be granted Required permissions try switching over to the [Classic Azure portal](https://manage.windowsazure.com) and searching by name as well as Application Id.
 
 ### Step 3:  Configure the sample to use your Azure AD tenant
 
@@ -59,14 +61,14 @@ There are two projects in this sample.  Each needs to be separately registered i
 1. Open the solution in Visual Studio 2015.
 2. Open the `appsettings.json` file.
 3. Find the `Tenant` property and replace the value with your AAD tenant name, e.g. contoso.onmicrosoft.com.
-4. Find the `Audience` property and replace the value with the App ID URI you registered earlier, for example `https://<your_tenant_name>/TodoListService`.
+4. Find the `Audience` property and replace the value with the App URI you registered earlier, for example `https://<your_tenant_name>/TodoListService`.
 
 #### Configure the TodoListWebApp project
 
 1. Open the solution in Visual Studio 2015.
 2. Open the `appsettings.json` file.
 3. Find the `Tenant` property and replace the value with your AAD tenant name, e.g. contoso.onmicrosoft.com.
-4. Find the `ClientId` property and replace the value with the Client ID for the TodoListWebApp from the Azure portal.
+4. Find the `ClientId` property and replace the value with the Application ID for the TodoListWebApp from the Azure portal.
 5. Find the `ClientSecret` and replace the value with the key for the TodoListWebApp from the Azure portal.
 6. If you changed the base URL of the TodoListWebApp sample, find the `PostLogoutRedirectUri` property and replace the value with the new base URL of the sample.
 8. Find the `TodoListResourceId` property and replace the value with the App ID URI registered for the TodoListService, for example `https://<your_tenant_name>/TodoListService`.
