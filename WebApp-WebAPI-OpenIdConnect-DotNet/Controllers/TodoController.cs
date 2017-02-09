@@ -53,8 +53,8 @@ namespace TodoListWebApp.Controllers
                     foreach (Dictionary<String, String> responseElement in responseElements)
                     {
                         TodoItem newItem = new TodoItem();
-                        newItem.Title = responseElement["Title"];
-                        newItem.Owner = responseElement["Owner"];
+                        newItem.Title = responseElement["title"];
+                        newItem.Owner = responseElement["owner"];
                         itemList.Add(newItem);
                     }
 
