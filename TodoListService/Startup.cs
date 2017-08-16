@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace TodoListService
 {
@@ -40,7 +41,7 @@ namespace TodoListService
             loggerFactory.AddConsole(LogLevel.Debug);
 
             // Configure the app to use Jwt Bearer Authentication
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            app.UseJwtBearerAuthentication( new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,

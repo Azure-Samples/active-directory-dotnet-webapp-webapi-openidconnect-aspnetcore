@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -43,8 +41,33 @@ namespace TodoListWebApp
             // Add session services.
             services.AddSession();
 
+            // Populate AzureAd Configuration Values
+            Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
+            ClientId = Configuration["AzureAd:ClientId"];
+            ClientSecret = Configuration["AzureAd:ClientSecret"];
+            GraphResourceId = Configuration["AzureAd:GraphResourceId"];
+            TodoListResourceId = Configuration["AzureAd:TodoListResourceId"];
+
+
             // Add Authentication services.
-            services.AddAuthentication(sharedOptions => sharedOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+            services.AddAuthentication(sharedOptions => sharedOptions.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme)
+                // Configure the OWIN pipeline to use cookie auth.
+                .AddCookie(option=> new CookieAuthenticationOptions())
+                // Configure the OWIN pipeline to use OpenID Connect auth.
+                .AddOpenIdConnect(option => new OpenIdConnectOptions
+                {
+                    ClientId = ClientId,
+                    Authority = Authority,
+                    SignedOutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"],
+                    ResponseType = OpenIdConnectResponseType.CodeIdToken,
+                    GetClaimsFromUserInfoEndpoint = false,
+
+                    Events = new OpenIdConnectEvents
+                    {
+                        OnRemoteFailure = OnAuthenticationFailed,
+                        OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
+                    }
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,32 +85,6 @@ namespace TodoListWebApp
             // Configure session middleware.
             app.UseSession();
 
-            // Populate AzureAd Configuration Values
-            Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
-            ClientId = Configuration["AzureAd:ClientId"];
-            ClientSecret = Configuration["AzureAd:ClientSecret"];
-            GraphResourceId = Configuration["AzureAd:GraphResourceId"];
-            TodoListResourceId = Configuration["AzureAd:TodoListResourceId"];
-
-            // Configure the OWIN pipeline to use cookie auth.
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-
-            // Configure the OWIN pipeline to use OpenID Connect auth.
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            {
-                ClientId = ClientId,
-                Authority = Authority,
-                PostLogoutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"],
-                ResponseType = OpenIdConnectResponseType.CodeIdToken,
-                GetClaimsFromUserInfoEndpoint = false,
-                
-                Events = new OpenIdConnectEvents
-                {
-                    OnRemoteFailure = OnAuthenticationFailed,
-                    OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
-                }
-            });
-
             // Configure MVC routes
             app.UseMvc(routes =>
             {
@@ -100,7 +97,7 @@ namespace TodoListWebApp
         private async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
         {
             // Acquire a Token for the Graph API and cache it using ADAL.  In the TodoListController, we'll use the cache to acquire a token to the Todo List API
-            string userObjectId = (context.Ticket.Principal.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier"))?.Value;
+            string userObjectId = (context.Principal.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier"))?.Value;
             ClientCredential clientCred = new ClientCredential(ClientId, ClientSecret);
             AuthenticationContext authContext = new AuthenticationContext(Authority, new NaiveSessionCache(userObjectId, context.HttpContext.Session));
             AuthenticationResult authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(
@@ -111,7 +108,7 @@ namespace TodoListWebApp
         }
 
         // Handle sign-in errors differently than generic errors.
-        private Task OnAuthenticationFailed(FailureContext context)
+        private Task OnAuthenticationFailed(RemoteFailureContext context)
         {
             context.HandleResponse();
             context.Response.Redirect("/Home/Error?message=" + context.Failure.Message);

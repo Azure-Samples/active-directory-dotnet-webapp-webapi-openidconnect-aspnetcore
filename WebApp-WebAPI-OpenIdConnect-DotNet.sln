@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TodoListWebApp", "WebApp-WebAPI-OpenIdConnect-DotNet\TodoListWebApp.xproj", "{EC65AC78-DB7A-4C36-BD63-869D32FCE1BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp-WebAPI-OpenIdConnect-DotNet", "WebApp-WebAPI-OpenIdConnect-DotNet\WebApp-WebAPI-OpenIdConnect-DotNet.csproj", "{EC65AC78-DB7A-4C36-BD63-869D32FCE1BA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TodoListService", "TodoListService\TodoListService.xproj", "{A0D9B88D-501F-4F34-9CA1-01AD4FD216B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListService", "TodoListService\TodoListService.csproj", "{A0D9B88D-501F-4F34-9CA1-01AD4FD216B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
