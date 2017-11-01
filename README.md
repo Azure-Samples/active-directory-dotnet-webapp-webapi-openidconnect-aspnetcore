@@ -13,6 +13,11 @@ For more information about how the protocols work in this scenario and other sce
 
 ## How To Run This Sample
 
+>[!Note] If you want to run this sample on **Azure Government**, navigate to the "Azure Government Deviations" section at the bottom of this page.
+>
+>
+>
+
 Getting started is simple!  To run this sample you will need:
 - Install .NET Core for Windows by following the instructions at [dot.net/core](https://dot.net/core), which will include Visual Studio 2015 Update 3.
 - An Internet connection
@@ -113,3 +118,15 @@ You can verify the certificate is in the Trusted Root store by running this comm
 Clean the solution, rebuild the solution, and run it.  You might want to go into the solution properties and set both projects as startup projects, with the service project starting first.
 
 Explore the sample by signing in, To Do List link, adding items to the To Do list, signing out, and starting again.
+
+## Azure Government Deviations
+
+In order to run this sample on Azure Government you can follow through the steps above with a few variations:
+
+- Step 2: 
+   - You must register this sample for your AAD Tenant in Azure Government by following Step 2 above in the [Azure Government portal](https://portal.azure.us). 
+- Step 3: 
+    - Before configuring the sample, you must make sure your [Visual Studio is connected to Azure Government](https://docs.microsoft.com/azure/azure-government/documentation-government-get-started-connect-with-vs).     
+    - Navigate to the appsettings.json files for both the TodoListService web API and TodoListWebApp web application. Replace the "AAD Instance" property in the Azure AD section with `https://login.microsoftonline.us/`. 
+    
+Once those changes have been accounted for, you should be able to run this sample on Azure Government.  
