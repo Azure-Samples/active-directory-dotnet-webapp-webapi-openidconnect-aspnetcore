@@ -121,7 +121,7 @@ The code for the service is exactly the same as in the [active-directory-dotnet-
 ### Code for ASP.NET Web App
 The code for the ASP.NET Web App is based on the code of the [active-directory-dotnet-webapp-openidconnect-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-aspnetcore) sample. Please read the "About The code" section of that sample first.
 
-Then, based on that code, the following modifications were applied:
+Then, based on that code, the following modifications were applied. If you are interested in the details, the following [commit](https://github.com/Azure-Samples/active-directory-dotnet-webapp-webapi-openidconnect-aspnetcore/pull/24/commits/2ce2750dfd172f9297c2d1885cccdd6b66cc7529) details the incremental changes described below:
 - Update of the AzureAdOptions class to add a property to compute the `Authority` from the `instance` and the `tenantID`, and adding two other configuration options for `ClientSecret`,  the `resourceId` of TodoListService (its clientId) and the base address for this service.
 - Added a `TodoListItem` in models to deserialize the Json sent by the TodoListService
 - Added a `NaiveSessionCache` class in a new Utils folder which serves as a token cache which livetime is the duration of the session. Updated the `Startup.cs` file accordingly to add sessions.
