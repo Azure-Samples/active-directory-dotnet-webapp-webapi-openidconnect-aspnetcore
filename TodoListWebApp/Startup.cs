@@ -25,10 +25,16 @@ namespace WebApp_OpenIDConnect_DotNet
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            .AddAzureAd(options =>
+            {
+                Configuration.Bind("AzureAd", options);
+                AzureAdOptions.Settings = options;
+            })
             .AddCookie();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddSessionStateTempDataProvider();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,12 +51,12 @@ namespace WebApp_OpenIDConnect_DotNet
 
             app.UseStaticFiles();
 
+            app.UseSession(); // Needs to be app.UseAuthentication() and app.UseMvc() otherwise you will get an exception "Session has not been configured for this application or request."
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default", 
+                    name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
