@@ -10,118 +10,116 @@ endpoint: AAD V1
 # Calling a web API in an ASP.NET Core web application using Azure AD
 ## About this sample
 ### Scenario
-You expose a Web API and you want to protect it so that only authenticated user can access it. 
+This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD. The web API is accessed by an ASP.NET Core 2.0 web application on behalf of the signed-in user. The ASP.NET Web application uses the OpenID Connect middleware and the Active Directory Authentication Library (ADAL.NET) to obtain a JWT bearer token for the signed-in user using the [OAuth 2.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-oauth-code) protocol. The bearer token is passed to the web API, which validates the token and authorizes the user using the JWT bearer authentication middleware.
 
-This sample presents a Web API running on ASP.NET Core 2.0, protected by Azure AD OAuth Bearer Authentication. The Web API is access by an ASP.NET Core 2.0 Web application, in the name of the signed-in user. 
-The ASP.NET Web application uses the OpenID Connect ASP.NET Core middleware and the Active Directory Authentication Library (ADAL.Net) to obtain a JWT access token for the signed-in user through the [OAuth 2.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-oauth-code) protocol. The access token is sent to the ASP.NET Core Web API, which authorizes the user using the ASP.NET JWT Bearer Authentication middleware.
-
-### more information
+### More information
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
-> This sample been updated to ASP.NET Core 2.0.  Looking for previous versions of this code sample? Check out the tags on the [ASP.NET Core 1.0 version](./tree/aspnet10) branch.
+> This sample has been updated to ASP.NET Core 2.0. Looking for previous versions of this code sample? Check out the tags on the [ASP.NET Core 1.0](./tree/aspnet10) branch.
 
-### User experience with this sample
-The Web API (TodoListService) maintains an in-memory collection of to-do items per authenticated user. Several applications signed-in under the same identity share the to-do list. These can be
-several instances of the Web App proposed in this sample, but also native clients like the [dotnet native (WPF) client](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore) as they share the same service.
+### User experience
+The web API, **TodoListService**, maintains an in-memory collection of to-do items per authenticated user. The authenticated user carries the same to-do list across multiple instances of the web app in this sample as well as native clients like the [.NET native (WPF) client](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore).
 
-The ASP.NET Core 2.0 Web application (TodoListWebApp) enables a user to:
-- Sign in. The first time a user signs, a consent screen is presented letting him consent for the application accessing the TodoList Service and the Azure Active Directory (so that the Web App can read the user's profile). Because this is a Web App, hosted in a browser, it can be that the user gets immediately signed-in benefiting from Single Sign On with other web applications. 
-- Click on the *Todo List* part of the navigation bar of the application. At that point s/he:
-    - sees the list of to-do items exposed by Web API for the signed-in identity (this list would be empty if the service was just started)
-    - can add more to-do items (buy clicking on Add item).
-- Sign-out
+The ASP.NET Core 2.0 web app, **TodoListWebApp** enables a user to:
+- Sign in. The first time a user signs in, a consent screen prompts the user for permission to access **TodoListService** and obtain user profile information from Azure Active Directory. Since this is a web app, hosted in a browser, it can be that the user gets immediately signed-in benefiting from Single Sign On with other web applications. 
+- Select **Todo List** in the app's navigation bar. The user may then:
+    - See the list of to-do items exposed by Web API for the signed-in identity,
+    - Add more to-do items (buy clicking on Add item).
+- Sign out.
 
-Next time the user navigates to the Web application, s/he is signed-in with the same identity as this identity is persisted in a cookie.
+On subsequent returns to the web app, the user's session is persisted locally in a cookie and reauthentication is not required.
+
 ![TodoList WebApp](./Readme/todolist-webApp.png)
 
+## Running the sample
 
-
-## How To Run This Sample
->[!Note] If you want to run this sample on **Azure Government**, navigate to the "Azure Government Deviations" section at the bottom of this page.
->
+> [!NOTE] 
+> If you want to run this sample on **Azure Government**, see the "Azure Government Deviations" section at the bottom of this page.
 
 ### Pre-requisites
-- Install .NET Core for Windows by following the instructions at [dot.net/core](https://dot.net/core), which will include Visual Studio 2017.
-- An Internet connection
-- An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, please see [How to get an Azure AD tenant](https://azure.microsoft.com/en-us/documentation/articles/active-directory-howto-tenant/) 
-- A user account in your Azure AD tenant. This sample will not work with a Microsoft account (MSA, live account), so if you signed in to the Azure portal with a Microsoft personal account and have never created a user account in your directory before, you need to do that now (See [Quickstart: Add new users to Azure Active Directory](https://docs.microsoft.com/en-us/azure/active-directory/add-users-azure-active-directory))
 
-### Step 1:  Clone or download this repository
+- [.NET Core for Windows](https://www.microsoft.com/net/learn/get-started/windows#windows)
+- [Visual Studio 2017](https://aka.ms/vsdownload)
+- An [Azure Active Directory (Azure AD) tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/)
+- A [user account in the Azure AD tenant](https://docs.microsoft.com/azure/active-directory/add-users-azure-active-directory) This sample will not work with a Microsoft account (formerly Windows Live account).
+
+### Step 1: Clone or download this repository
 
 From your shell or command line:
 
-`git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-webapi-openidconnect-aspnetcore.git`
+```sh
+git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-webapi-openidconnect-aspnetcore.git
+```
 
-### Step 2:  Register the sample with your Azure Active Directory tenant
+### Step 2: Register the sample with the Azure Active Directory tenant
 
-There are two projects in this sample.  Each needs to be separately registered in your Azure AD tenant.
+There are two projects in this sample.  Each needs to be registered in your Azure AD tenant.
 
-#### Register the TodoListService web API
+#### Register the **TodoListService** web API
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
-1. On the top bar, click on your account and under the **Directory** list, choose the Active Directory tenant where you wish to register your application.
-1. Click on **More Services** in the left hand nav, and choose **Azure Active Directory**.
-1. Click on **App registrations** and choose **New application registration**.
-1. Enter a friendly **Name** for the application, for example 'TodoListService' and select 'Web Application and/or Web API' as the **Application Type**. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44351`. Click on **Create** to create the application.
-1. While still in the Azure portal, choose your application, click on **Settings** and choose **Properties**.
-1. From the Azure portal, note the following information, for instance by copying it to notepad:
-    - The Tenant domain: See the App ID URI base URL. For example: contoso.onmicrosoft.com 
-    - The Tenant ID: See the Endpoints blade (button next to *New application registration*). Record the GUID from any of the endpoint URLs. For example: da41245a5-11b3-996c-00a8-4d99re19f292. Alternatively you can also find the Tenant ID in the Properties of the Azure Active Directory object (this is the value of the **Directory ID** property)
-    - The Application ID (Client ID): See the Properties blade. For example: ba74781c2-53c2-442a-97c2-3d60re42f403
+1. On the top bar, click on the signed-in account. Under **Directory**, select the Azure AD tenant where the app will be registered.
+1. In the navigation on the left, select **More Services >**. Scroll down and select **Azure Active Directory**.
+1. Select **App registrations** and then select **+ New application registration**.
+1. Enter *TodoListService* for **Name**.  For **Application type**, select *Web app / API'. For **Sign-on URL**, enter the base URL for the sample web API project (by default `https://localhost:44351`). Select the **Create** button to create the app registration. 
+1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the following information for reference in later steps:
+    - The domain of the Azure AD tenant in **App ID URI**. Only the domain, such as `contoso.onmicrosoft.com` is required. Omit the rest of the URI. 
+    - **Application ID**
+1. Return to the list of app registrations. Select the **Endpoints** button. Note the GUID (formatted `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`) from any of the endpoint URLs. This is the **Tenant ID**. Omit the rest of the URL.
+
+> [!NOTE]
+> By default, the list of app registrations is filtered to *My apps*. To see the app that was just registered, select *All apps*. in the filter dropdown near the top of the blade.
 
 #### Register the TodoListWebApp web application
 
-1. If not already done, sign in to the [Azure portal](https://portal.azure.com).
-1. On the top bar, click on your account and under the **Directory** list, choose the same Active Directory tenant as for the service
-1. Click on **More Services** in the left hand nav, and choose **Azure Active Directory**.
-1. Click on **App registrations** and choose **New application registration**.
-1. Enter a friendly **Name** for the application, for example 'TodoListWebApp' and select 'Web Application and/or Web API' as the Application Type. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:17945/signin-oidc`. 
-1. While still in the Azure portal, choose your application, click on **Settings** and choose **Properties**.
-1. Find the Application ID value and copy it to the clipboard.
-1. On the same page, change the `Logout Url` property to `https://localhost:44371/Account/EndSession`.  This is the default single sign out URL for this sample. 
-1. From the Settings menu, choose **Keys** and add a key - select a key duration of either 1 year or 2 years. When you save this page, the key value will be displayed, copy and save the value in a safe location - you will need this key later to configure the project in Visual Studio - this key value will not be displayed again, nor retrievable by any other means, so please record it as soon as it is visible from the Azure Portal.
-1. Configure Permissions for your application - in the Settings menu, choose the 'Required permissions' section, click on **Add**, then **Select an API**, and type 'TodoListService' in the textbox. Then, click on  **Select Permissions** and select 'Access TodoListService'.
+1. Return to the list of app registrations. Select **+ New application registration**.
+1. Enter *TodoListWebApp* for **Name**. For **Application type**, select *Web app / API*. For **Sign-on URL**, enter the base URL for the sample web app project (by default `http://localhost:17945/signin-oidc`). Select the **Create** button to create the app registration.  
+1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the **Application ID** for reference in later steps.
+1. On the same blade, set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Select **Save**. 
+1. From the **Settings** blade, select **Keys**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
+4. From the **Settings** blade, select **Required permissions**. Select **+ Add**, and then select **Select an API**. Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list and then select the **Select** button. Select **Select Permissions**. Tick the checkbox next to **Access TodoListService** and then select the **Select** button. Select the **Done** button.
 
-### Step 3:  Configure the sample to use your Azure AD tenant
+### Step 3: Configure the sample to use the Azure AD tenant
 
-#### Configure the TodoListService ASP.NET Core 2.0 C# project
+#### Configure the TodoListService project
 
 1. Open the solution in Visual Studio.
-1. In the TodoListService project, open the `appsettings.json` file.
-1. Find the `Domain` property and replace the value with your AAD tenant domain, e.g. contoso.onmicrosoft.com.
-1. Find the `TenantId` property and replace the value with the Tenant ID you registered earlier (a GUID), 
-1. Find the `ClientId` property and replace the value with the Application ID (Client ID) property of the TodoListService application, that you registered earlier (also a GUID)
+1. In the **TodoListService** project, open the `appsettings.json` file.
+1. Find the `Domain` property and replace the value with the AAD tenant domain.
+1. Find the `TenantId` property and replace the value with the **Tenant ID**. 
+1. Find the `ClientId` property and replace the value with the **Application ID** property of the TodoListService application.
 
-#### Configure the TodoListWebApp ASP.NET Core 2.0 C# project
+#### Configure the TodoListWebApp project
 
-1. Open the solution in Visual Studio.
-1. Open the `appsettings.json` file.
-1. In the TodoListWebApp project, open the `appsettings.json` file.
-1. Find the `Domain` property and replace the value with your AAD tenant domain, e.g. contoso.onmicrosoft.com.
-1. Find the `TenantId` property and replace the value with the Tenant ID you registered earlier (a GUID), 
-1. Find the `ClientId` property and replace the value with the Application ID (Client ID) property of the *TodoListWebApp* application, that you registered earlier (also a GUID)
-1. Find the `ClientSecret` and replace the value with the key for the TodoListWebApp that you noted from the Azure portal.
-1. If you changed the base URL of the TodoListWebApp sample, add a `PostLogoutRedirectUri` property and replace the value with the new base URL of the sample.
-1. Find the `TodoListResourceId` property and replace the value with ClientId (Application ID) registered for the *TodoListService*, (again this is a GUID)
+> [!WARNING]
+> Follow these steps carefully. The **Application ID** property of both app registrations are used below.
 
-### Step 4:  Run the sample
+1. In the **TodoListWebApp** project, open the `appsettings.json` file.
+1. Find the `Domain` property and replace the value with the AAD tenant domain.
+1. Find the `TenantId` property and replace the value with the **Tenant ID**. 
+1. Find the `ClientId` property and replace the value with the **Application ID** of the *TodoListWebApp* app.
+1. Find the `ClientSecret` and replace the value with the key value for the *TodoListWebApp* app.
+1. Find the `TodoListResourceId` property and replace the value with the **Application ID** of the *TodoListService* app
 
-Clean the solution, rebuild the solution, and run it.  You might want to go into the solution properties and set both projects as startup projects, with the service project starting first.
+### Step 4: Run the sample
 
-When you start the Web API, you will get an empty web page. This is expected.
+In the solution properties, set both projects as startup projects. Set **TodoListService** to run first. Clean the solution, rebuild it, and then run it.  
 
-Explore the sample by signing in into the TodoList Web App, clicking on "Todo List", signing again if needed, adding items to the To Do list, signing-out, and starting again.  As explained, if you close the browser tab (or the browser) without signing-out, the next time you run the application you won't be prompted to sign-in again.
+On startup, the web API displays an empty web page. This is expected behavior.
 
-NOTE: Remember, the To Do list is stored in memory in this TodoListService sample. Each time you stop the TodoListService API, your To Do list will get emptied.
+Explore the sample by signing in into the web app, clicking on "Todo List", signing again if needed, adding items to the To Do list, signing-out, and starting again.  Since the authenticated session is stored in a cookie, the application doesn't require logging in again if the previous session was never signed out.
+
+> [!NOTE]
+> The To Do list is stored in memory in this sample. Each time the TodoListService API is stopped, any to-do lists are reset.
 
 ## How the code was created?
 ### Code for the service
-The code for the service is exactly the same as in the [active-directory-dotnet-native-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore) same. Please refer to the readme of that sample to understand how to it was built
+The code for the service is exactly the same as in the [active-directory-dotnet-native-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore) sample. Please refer to that sample for more information.
 
 ### Code for ASP.NET Web App
-The code for the ASP.NET Web App is based on the code of the [active-directory-dotnet-webapp-openidconnect-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-aspnetcore) sample. Please read the "About The code" section of that sample first.
+The code for the ASP.NET web app is based on the code of the [active-directory-dotnet-webapp-openidconnect-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-aspnetcore) sample. Please read the "About The code" section of that sample first.
 
-Then, based on that code, the following modifications were applied. If you are interested in the details, the following [commit](https://github.com/Azure-Samples/active-directory-dotnet-webapp-webapi-openidconnect-aspnetcore/pull/24/commits/2ce2750dfd172f9297c2d1885cccdd6b66cc7529) details the incremental changes described below:
+Then, based on that code, the following modifications were applied. [This commit](https://github.com/Azure-Samples/active-directory-dotnet-webapp-webapi-openidconnect-aspnetcore/pull/24/commits/2ce2750dfd172f9297c2d1885cccdd6b66cc7529) details the incremental changes described below:
 - Update of the AzureAdOptions class to add a property to compute the `Authority` from the `instance` and the `tenantID`, and adding two other configuration options for `ClientSecret`,  the `resourceId` of TodoListService (its clientId) and the base address for this service.
 - Added a `TodoListItem` in models to deserialize the Json sent by the TodoListService
 - Added a `NaiveSessionCache` class in a new Utils folder which serves as a token cache which livetime is the duration of the session. Updated the `Startup.cs` file accordingly to add sessions.
@@ -129,15 +127,15 @@ Then, based on that code, the following modifications were applied. If you are i
 - Updated the `SignOut()` method of the `AccountController` to clear the cache for the user when s/he signs-out.
 - Updated `AzureAdAuthenticationBuilderExtensions.cs` to request an authorization code, and redeem it, getting an access token to the Azure AD graph (https://graph.windows.com), so that the token cache contains a token for the user. This token will be used by the `TodoController` to request another token for the TodoListService
 
-In case you were familiar with this scenario in ASP.NET, you'll want to notice the following line in `AzureAdAuthenticationBuilderExtensions.cs` 
+This scenario is slightly different than the same scenario in ASP.NET (not Core).  Note the following line in *AzureAdAuthenticationBuilderExtensions.cs*:
 
-``
+```csharp
 options.ResponseType = "id_token code";
-``
+```
 
-indeed, contrary to ASP.NET, ASP.NET Core 2.0 seems to use by default an implicit flow. Without overriding the response type (which by default is *id_token*), `OnTokenValidated` event is called instead of  `OnAuthorizationCodeReceived`. In the line above, we request both *id_token* and *code*, so that `OnTokenValidated` is called first which ensures that `context.Principal` has a non-null value represeting the signed-in user when `OnAuthorizeationCodeReceived` is called
+Unlike ASP.NET, ASP.NET Core 2.0 uses an implicit flow by default. Without overriding the response type (default *id_token*), the `OnTokenValidated` event is fired instead of `OnAuthorizationCodeReceived`. The line above requests **both** *id_token* and *code*, so that `OnTokenValidated` is called first. This ensures that `context.Principal` has a non-null value representing the signed-in user when `OnAuthorizeationCodeReceived` is called.
 
-### How to change the App URL
+### How to change the app URL
 If you are using Visual Studio 2017
 1. Edit the TodoListService's properties (right click on `TodoListService.csproj`, and choose **Properties**)
 1. In the Debug tab:
@@ -147,10 +145,13 @@ If you are using Visual Studio 2017
 
 The same kind of modifications can be made on the `TodoListWebApp.csproj` project.
 
+> [!WARNING]
+> Ensure that all of the app registration steps reflect any changes made to the URLs, or the sample won't function.
+
 ### What to change when you deploy the sample to Azure
-When you deploy this sample to Azure, you will need to:
-- update the various URLs (reply URLs, Base URL) in the `appsettings.json` files
-- Add Reply URLs pointing to the deployed location, for  both applications in the Azure portal.
+To this sample to Azure:
+- Update the various URLs (reply URLs, Base URL) in the *appsettings.json* files
+- Add Reply URLs pointing to the deployed location, for  both applications in the Azure portal
 
 ### Azure Government Deviations
 
