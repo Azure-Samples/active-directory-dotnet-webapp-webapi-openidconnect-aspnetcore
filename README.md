@@ -114,7 +114,7 @@ Explore the sample by signing in into the web app, clicking on "Todo List", sign
 
 ## How the code was created?
 ### Code for the service
-The code for the service is exactly the same as in the [active-directory-dotnet-native-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore) sample. Please refer to that sample for more information.
+The code for the service is exactly the same as the service used in the [active-directory-dotnet-native-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore#how-the-code-was-created) sample. Please refer to that sample for more information.
 
 ### Code for ASP.NET Web App
 The code for the ASP.NET web app is based on the code of the [active-directory-dotnet-webapp-openidconnect-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-aspnetcore) sample. Please read the "About The code" section of that sample first.
