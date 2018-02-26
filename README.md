@@ -78,6 +78,7 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 1. On the same blade, set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Select **Save**. 
 1. From the **Settings** blade, select **Keys**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
 4. From the **Settings** blade, select **Required permissions**. Select **+ Add**, and then select **Select an API**. Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list and then select the **Select** button. Select **Select Permissions**. Tick the checkbox next to **Access TodoListService** and then select the **Select** button. Select the **Done** button.
+5. In the **Settings** blade, under **API Access**, select **Required permissions**. Click on the **Grant Permissions** and when prompted press **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
 
 ### Step 3: Configure the sample to use the Azure AD tenant
 
