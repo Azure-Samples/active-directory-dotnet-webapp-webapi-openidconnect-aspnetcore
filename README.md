@@ -7,6 +7,7 @@ client: ASP.NET Core 2.0
 service: ASP.NET Core 2.0
 endpoint: AAD V1
 ---
+
 # Calling a web API in an ASP.NET Core web application using Azure AD
 ## About this sample
 ### Scenario
