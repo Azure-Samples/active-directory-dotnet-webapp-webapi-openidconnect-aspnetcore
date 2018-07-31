@@ -65,15 +65,7 @@ namespace TodoListWebApp.Controllers
                 //
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    var todoTokens = authContext.TokenCache.ReadItems().Where(a => a.Resource == AzureAdOptions.Settings.TodoListResourceId);
-                    foreach (TokenCacheItem tci in todoTokens)
-                        authContext.TokenCache.DeleteItem(tci);
-
-                    ViewBag.ErrorMessage = "UnexpectedError";
-                    TodoItem newItem = new TodoItem();
-                    newItem.Title = "(No items in list)";
-                    itemList.Add(newItem);
-                    return View(itemList);
+                    return ProcessUnauthorized(itemList, authContext);
                 }
             }
             catch (Exception)
@@ -101,8 +93,6 @@ namespace TodoListWebApp.Controllers
             //
             return View("Error");
         }
-
-
 
         [HttpPost]
         public async Task<ActionResult> Index(string item)
@@ -148,15 +138,7 @@ namespace TodoListWebApp.Controllers
                     //
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
-                        var todoTokens = authContext.TokenCache.ReadItems().Where(a => a.Resource == AzureAdOptions.Settings.TodoListResourceId);
-                        foreach (TokenCacheItem tci in todoTokens)
-                            authContext.TokenCache.DeleteItem(tci);
-
-                        ViewBag.ErrorMessage = "UnexpectedError";
-                        TodoItem newItem = new TodoItem();
-                        newItem.Title = "(No items in list)";
-                        itemList.Add(newItem);
-                        return View(newItem);
+                        return ProcessUnauthorized(itemList, authContext);
                     }
                 }
                 catch (Exception)
@@ -176,6 +158,19 @@ namespace TodoListWebApp.Controllers
                 return View("Error");
             }
             return View("Error");
+        }
+
+        private ActionResult ProcessUnauthorized(List<TodoItem> itemList, AuthenticationContext authContext)
+        {
+            var todoTokens = authContext.TokenCache.ReadItems().Where(a => a.Resource == AzureAdOptions.Settings.TodoListResourceId);
+            foreach (TokenCacheItem tci in todoTokens)
+                authContext.TokenCache.DeleteItem(tci);
+
+            ViewBag.ErrorMessage = "UnexpectedError";
+            TodoItem newItem = new TodoItem();
+            newItem.Title = "(No items in list)";
+            itemList.Add(newItem);
+            return View(itemList);
         }
     }
 }
