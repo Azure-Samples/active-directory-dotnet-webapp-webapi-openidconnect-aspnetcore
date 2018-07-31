@@ -161,7 +161,7 @@ namespace TodoListWebApp.Controllers
                         return View(newItem);
                     }
                 }
-                catch (Exception ee)
+                catch (Exception)
                 {
                     //
                     // The user needs to re-authorize.  Show them a message to that effect.
