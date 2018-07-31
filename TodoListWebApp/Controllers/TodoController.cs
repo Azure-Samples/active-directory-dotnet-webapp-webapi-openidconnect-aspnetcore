@@ -58,27 +58,25 @@ namespace TodoListWebApp.Controllers
 
                     return View(itemList);
                 }
-                else
-                {
-                    //
-                    // If the call failed with access denied, then drop the current access token from the cache, 
-                    //     and show the user an error indicating they might need to sign-in again.
-                    //
-                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                    {
-                        var todoTokens = authContext.TokenCache.ReadItems().Where(a => a.Resource == AzureAdOptions.Settings.TodoListResourceId);
-                        foreach (TokenCacheItem tci in todoTokens)
-                            authContext.TokenCache.DeleteItem(tci);
 
-                        ViewBag.ErrorMessage = "UnexpectedError";
-                        TodoItem newItem = new TodoItem();
-                        newItem.Title = "(No items in list)";
-                        itemList.Add(newItem);
-                        return View(itemList);
-                    }
+                //
+                // If the call failed with access denied, then drop the current access token from the cache, 
+                //     and show the user an error indicating they might need to sign-in again.
+                //
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    var todoTokens = authContext.TokenCache.ReadItems().Where(a => a.Resource == AzureAdOptions.Settings.TodoListResourceId);
+                    foreach (TokenCacheItem tci in todoTokens)
+                        authContext.TokenCache.DeleteItem(tci);
+
+                    ViewBag.ErrorMessage = "UnexpectedError";
+                    TodoItem newItem = new TodoItem();
+                    newItem.Title = "(No items in list)";
+                    itemList.Add(newItem);
+                    return View(itemList);
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 if (HttpContext.Request.Query["reauth"] == "True")
                 {
