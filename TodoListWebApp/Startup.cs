@@ -51,7 +51,7 @@ namespace WebApp_OpenIDConnect_DotNet
 
             app.UseStaticFiles();
 
-            app.UseSession(); // Needs to be app.UseAuthentication() and app.UseMvc() otherwise you will get an exception "Session has not been configured for this application or request."
+            app.UseSession(); // Needs to be before app.UseAuthentication() and app.UseMvc() otherwise you will get an exception "Session has not been configured for this application or request."
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
