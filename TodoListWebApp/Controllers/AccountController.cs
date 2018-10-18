@@ -16,7 +16,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         {
             var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
             return Challenge(
-                new AuthenticationProperties { RedirectUri = redirectUrl },
+                new AuthenticationProperties { RedirectUri = redirectUrl, AllowRefresh = true },
                 OpenIdConnectDefaults.AuthenticationScheme);
         }
 
@@ -32,7 +32,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
             // Let Azure AD sign-out
             var callbackUrl = Url.Action(nameof(SignedOut), "Account", values: null, protocol: Request.Scheme);
             return SignOut(
-                new AuthenticationProperties { RedirectUri = callbackUrl },
+                new AuthenticationProperties { RedirectUri = callbackUrl, AllowRefresh = true },
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 OpenIdConnectDefaults.AuthenticationScheme);
         }
