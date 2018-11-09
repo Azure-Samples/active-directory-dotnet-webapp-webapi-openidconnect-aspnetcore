@@ -116,7 +116,7 @@ Explore the sample by signing in into the web app, clicking on "Todo List", sign
 > [!NOTE]
 > The To Do list is stored in memory in this sample. Each time the TodoListService API is stopped, any to-do lists are reset.
 
-## How the code was created?
+## How was the code created?
 ### Code for the service
 The code for the service is exactly the same as the service used in the [active-directory-dotnet-native-aspnetcore](https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore#how-the-code-was-created) sample. Please refer to that sample for more information.
 
