@@ -8,7 +8,15 @@ service: ASP.NET Core 2.0
 endpoint: AAD V1
 ---
 # Calling a web API in an ASP.NET Core web application using Azure AD
+
 ## About this sample
+
+> You may also be interested in this sample: https://github.com/azure-samples/ms-identity-aspnetcore-webapp-tutorial/tree/master/4-webapp-your-api
+>
+> This newer sample takes advantage of the Microsoft identity platform (formerly Azure AD v2.0).
+>
+> While still in public preview, every component is supported in production environments.
+
 ### Scenario
 This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD. The web API is accessed by an ASP.NET Core 2.0 web application on behalf of the signed-in user. The ASP.NET Web application uses the OpenID Connect middleware and the Active Directory Authentication Library (ADAL.NET) to obtain a JWT bearer token for the signed-in user using the [OAuth 2.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-oauth-code) protocol. The bearer token is passed to the web API, which validates the token and authorizes the user using the JWT bearer authentication middleware.
 
