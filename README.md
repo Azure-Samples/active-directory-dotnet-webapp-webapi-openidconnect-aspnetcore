@@ -65,6 +65,9 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 1. In the navigation on the left, select **More Services >**. Scroll down and select **Azure Active Directory**.
 1. Select **App registrations** and then select **+ New registration**.
 1. Enter *TodoListService* for **Name**. Select "Accounts in this organization directory only' option (should be selected by default). Select the **Register** button to create the app registration. 
+
+![TodoList WebApp](./Readme/TodoListService_001.png)
+
 1. From the list of app registrations, select the newly created application, select **Quickstart**, and then select **Properties**. Note the following information for reference in later steps:
     - The domain of the Azure AD tenant in **App ID URI**. Only the domain, such as `contoso.onmicrosoft.com` is required. Omit the rest of the URI. 
     - **Application ID**
