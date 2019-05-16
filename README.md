@@ -63,25 +63,24 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 1. Sign in to the [Azure portal](https://portal.azure.com).
 1. On the top bar, click on the signed-in account. Under **Directory**, select the Azure AD tenant where the app will be registered.
 1. In the navigation on the left, select **More Services >**. Scroll down and select **Azure Active Directory**.
-1. Select **App registrations** and then select **+ New application registration**.
-1. Enter *TodoListService* for **Name**.  For **Application type**, select *Web app / API'. For **Sign-on URL**, enter the base URL for the sample web API project (by default `https://localhost:44351`). Select the **Create** button to create the app registration. 
-1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the following information for reference in later steps:
+1. Select **App registrations** and then select **+ New registration**.
+1. Enter *TodoListService* for **Name**. Select "Accounts in this organization directory only' option (should be selected by default). Select the **Register** button to create the app registration. 
+1. From the list of app registrations, select the newly created application, select **Quickstart**, and then select **Properties**. Note the following information for reference in later steps:
     - The domain of the Azure AD tenant in **App ID URI**. Only the domain, such as `contoso.onmicrosoft.com` is required. Omit the rest of the URI. 
     - **Application ID**
-1. Return to the list of app registrations. Select the **Endpoints** button. Note the GUID (formatted `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`) from any of the endpoint URLs. This is the **Tenant ID**. Omit the rest of the URL.
+1. From the list of app registrations, select the newly created application, select **Quickstart**. Select the **Endpoints** button. Note the GUID (formatted `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`) from any of the endpoint URLs. This is the **Tenant ID**. Omit the rest of the URL.
 
 > [!NOTE]
 > By default, the list of app registrations is filtered to *My apps*. To see the app that was just registered, select *All apps*. in the filter dropdown near the top of the blade.
 
 #### Register the TodoListWebApp web application
 
-1. Return to the list of app registrations. Select **+ New application registration**.
-1. Enter *TodoListWebApp* for **Name**. For **Application type**, select *Web app / API*. For **Sign-on URL**, enter the base URL for the sample web app project (by default `http://localhost:17945/signin-oidc`). Select the **Create** button to create the app registration.  
+1. Return to the list of app registrations. Select **+ New registration**.
+1. Enter *TodoListWebApp* for **Name**. Select "Accounts in this organization directory only' option (should be selected by default). For **Redirect URI**, enter the base URL for the sample web app project (by default `http://localhost:17945/signin-oidc`). Select the **Create** button to create the app registration.  
 1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the **Application ID** for reference in later steps.
-1. On the same blade, set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Select **Save**. 
-1. From the **Settings** blade, select **Keys**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
-4. From the **Settings** blade, select **Required permissions**. Select **+ Add**, and then select **Select an API**. Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list and then select the **Select** button. Select **Select Permissions**. Tick the checkbox next to **Access TodoListService** and then select the **Select** button. Select the **Done** button.
-5. In the **Settings** blade, under **API Access**, select **Required permissions**. Click on the **Grant Permissions** and when prompted press **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
+1. From the **Authentication** blade, under **Advanced settings** set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Under **implicit grant**, check the "ID tokens" checkbox. Select **Save**. 
+1. From the **Certificates & secrets** blade, select **New client Secret**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
+1. From the **API permissions** blade, select **+ Add a permission**, then under **Select an API** select "My APIs" and Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list. Then under **Select Permissions** check the **Read** permission. Then select the **Add permission** button then select **Grant admin consent for {Your Tenant}** button and select **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
 
 ### Step 3: Configure the sample to use the Azure AD tenant
 
