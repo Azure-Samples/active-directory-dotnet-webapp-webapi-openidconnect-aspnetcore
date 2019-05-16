@@ -115,6 +115,20 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 ![TodoList WebApp](./Readme/TodoListWebApp_007.png)
 ![TodoList WebApp](./Readme/TodoListWebApp_008.png)
 
+
+
+#### Register the TodoListPostman native application
+
+1. Return to the list of app registrations. Select **+ New registration**.
+2. Enter *TodoListPostman* for **Name**. Select "Accounts in this organization directory only' option (should be selected by default). Select the **Create** button to create the app registration.  
+3. From the list of app registrations, select the newly created application, select **Quickstart**. Note the **Application ID** for reference in later steps.
+4. From the **Authentication** blade, under **Suggested Redirect URIs for public clients (mobile, desktop)** select the first one (e.g. msal{application_id}://auth (MSAL only))
+
+![TodoList WebApp](./Readme/TodoListPostman_001.png)
+
+5. From the **API permissions** blade, select **+ Add a permission**, then under **Select an API** select "My APIs" and Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list. Then under **Select Permissions** check the **Read** permission. Then select the **Add permission** button then select **Grant admin consent for {Your Tenant}** button and select **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
+
+
 ### Step 3: Configure the sample to use the Azure AD tenant
 
 #### Configure the TodoListService project
@@ -136,6 +150,19 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 1. Find the `ClientId` property and replace the value with the **Application ID** of the *TodoListWebApp* app.
 1. Find the `ClientSecret` and replace the value with the key value for the *TodoListWebApp* app.
 1. Find the `TodoListResourceId` property and replace the value with the **Application ID** of the *TodoListService* app
+
+
+#### Configure Postman
+
+1. Create a new collection
+2. Create a new request
+3. Set Authorization to OAuth 2.0
+4. Click **Get New Access token** button. Enter the following values:
+    - **Grant Type**: Implicit
+    - **Callback URL**: Suggested Redirect URI for public clients (mobile/desktop) (e.g. msal{application_id}://auth)
+	- **Auth URL**: https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/authorize
+	- **Client ID**: TodoListPostman Application (client) ID
+	- **Scope**: api://{TodoListService Application ID}/Read
 
 ### Step 4: Run the sample
 
