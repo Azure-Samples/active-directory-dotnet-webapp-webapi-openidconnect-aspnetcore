@@ -106,11 +106,10 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 
 5. From the **Certificates & secrets** blade, select **New client Secret**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
 
-![TodoList WebApp](./Readme/TodoListWebApp_003.png)
+![TodoList WebApp](./Readme/TodoListWebApp_004.png)
 
 6. From the **API permissions** blade, select **+ Add a permission**, then under **Select an API** select "My APIs" and Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list. Then under **Select Permissions** check the **Read** permission. Then select the **Add permission** button then select **Grant admin consent for {Your Tenant}** button and select **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
 
-![TodoList WebApp](./Readme/TodoListWebApp_004.png)
 ![TodoList WebApp](./Readme/TodoListWebApp_005.png)
 ![TodoList WebApp](./Readme/TodoListWebApp_006.png)
 ![TodoList WebApp](./Readme/TodoListWebApp_007.png)
