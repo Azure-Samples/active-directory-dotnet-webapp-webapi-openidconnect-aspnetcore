@@ -163,7 +163,7 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 4. Click **Get New Access token** button. Enter the following values:
     - **Grant Type**: Implicit
     - **Callback URL**: Suggested Redirect URI for public clients (mobile/desktop) (e.g. msal{application_id}://auth)
-	- **Auth URL**: https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/authorize
+	- **Auth URL**: https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/authorize (v2.0 not working but this works https://login.microsoftonline.com/{tenant_id}/oauth2/authorize?resource={TodoListService Application ID})
 	- **Client ID**: TodoListPostman Application (client) ID
 	- **Scope**: api://{TodoListService Application ID}/Read
 
