@@ -156,6 +156,9 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 
 1. Create a new collection
 2. Create a new request
+
+![TodoList WebApp](./Readme/TodoListPostman_002.png)
+
 3. Set Authorization to OAuth 2.0
 4. Click **Get New Access token** button. Enter the following values:
     - **Grant Type**: Implicit
@@ -163,6 +166,8 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 	- **Auth URL**: https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/authorize
 	- **Client ID**: TodoListPostman Application (client) ID
 	- **Scope**: api://{TodoListService Application ID}/Read
+
+![TodoList WebApp](./Readme/TodoListPostman_003.png)
 
 ### Step 4: Run the sample
 
