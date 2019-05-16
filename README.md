@@ -113,6 +113,7 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 ![TodoList WebApp](./Readme/TodoListWebApp_005.png)
 ![TodoList WebApp](./Readme/TodoListWebApp_006.png)
 ![TodoList WebApp](./Readme/TodoListWebApp_007.png)
+![TodoList WebApp](./Readme/TodoListWebApp_008.png)
 
 ### Step 3: Configure the sample to use the Azure AD tenant
 
