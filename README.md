@@ -68,13 +68,21 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 
 ![TodoList WebApp](./Readme/TodoListService_001.png)
 
-6. From the list of app registrations, select the newly created application, select **Quickstart**, and then select **Properties**. Note the following information for reference in later steps:
+6. From the **Expose an API** blade, select **+ Add a scope**. You will be prompted to enter an Application ID URI before you can add a scope. Accept the default value of "api://{application_id}" and select the **Save and continued** button.
+
+![TodoList WebApp](./Readme/TodoListService_004.png)
+
+7. then under **Scope name** enter "Read". Enter "Read" into **Admin consent display name** and **Admin consent description**. press **Add scope**.
+
+![TodoList WebApp](./Readme/TodoListService_005.png)
+
+8. From the list of app registrations, select the newly created application, select **Quickstart**, Note the following information for reference in later steps:
     - **Application (client) ID**
     - **Directory (tenant) ID**
 	
 ![TodoList WebApp](./Readme/TodoListService_002.png)
 
-7. From the list of app registrations, select the newly created application, select **Branding**. Take note of the **Publisher Domain**, such as `contoso.onmicrosoft.com`.
+9. From the list of app registrations, select the newly created application, select **Branding**. Take note of the **Publisher Domain**, such as `contoso.onmicrosoft.com`.
 
 ![TodoList WebApp](./Readme/TodoListService_003.png)
 
@@ -84,11 +92,28 @@ There are two projects in this sample.  Each needs to be registered in your Azur
 #### Register the TodoListWebApp web application
 
 1. Return to the list of app registrations. Select **+ New registration**.
-1. Enter *TodoListWebApp* for **Name**. Select "Accounts in this organization directory only' option (should be selected by default). For **Redirect URI**, enter the base URL for the sample web app project (by default `http://localhost:17945/signin-oidc`). Select the **Create** button to create the app registration.  
-1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the **Application ID** for reference in later steps.
-1. From the **Authentication** blade, under **Advanced settings** set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Under **implicit grant**, check the "ID tokens" checkbox. Select **Save**. 
-1. From the **Certificates & secrets** blade, select **New client Secret**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
-1. From the **API permissions** blade, select **+ Add a permission**, then under **Select an API** select "My APIs" and Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list. Then under **Select Permissions** check the **Read** permission. Then select the **Add permission** button then select **Grant admin consent for {Your Tenant}** button and select **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
+2. Enter *TodoListWebApp* for **Name**. Select "Accounts in this organization directory only' option (should be selected by default). For **Redirect URI**, enter the base URL for the sample web app project (by default `http://localhost:17945/signin-oidc`). Select the **Create** button to create the app registration.  
+
+![TodoList WebApp](./Readme/TodoListWebApp_001.png)
+
+3. From the list of app registrations, select the newly created application, select **Quickstart**. Note the **Application ID** for reference in later steps.
+
+![TodoList WebApp](./Readme/TodoListWebApp_002.png)
+
+4. From the **Authentication** blade, under **Advanced settings** set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Under **implicit grant**, check the "ID tokens" checkbox. Select **Save**. 
+
+![TodoList WebApp](./Readme/TodoListWebApp_003.png)
+
+5. From the **Certificates & secrets** blade, select **New client Secret**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
+
+![TodoList WebApp](./Readme/TodoListWebApp_003.png)
+
+6. From the **API permissions** blade, select **+ Add a permission**, then under **Select an API** select "My APIs" and Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list. Then under **Select Permissions** check the **Read** permission. Then select the **Add permission** button then select **Grant admin consent for {Your Tenant}** button and select **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
+
+![TodoList WebApp](./Readme/TodoListWebApp_004.png)
+![TodoList WebApp](./Readme/TodoListWebApp_005.png)
+![TodoList WebApp](./Readme/TodoListWebApp_006.png)
+![TodoList WebApp](./Readme/TodoListWebApp_007.png)
 
 ### Step 3: Configure the sample to use the Azure AD tenant
 
