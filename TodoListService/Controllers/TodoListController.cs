@@ -8,7 +8,7 @@ using TodoListService.Models;
 
 namespace TodoListService.Controllers
 {
-   [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class TodoListController : Controller
     {

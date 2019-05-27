@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -68,8 +69,10 @@ namespace TodoListWebApp.Controllers
                     return ProcessUnauthorized(itemList, authContext);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
+
                 if (HttpContext.Request.Query["reauth"] == "True")
                 {
                     //
@@ -79,6 +82,7 @@ namespace TodoListWebApp.Controllers
                     //
                     return new ChallengeResult(OpenIdConnectDefaults.AuthenticationScheme);
                 }
+
                 //
                 // The user needs to re-authorize.  Show them a message to that effect.
                 //
@@ -88,6 +92,7 @@ namespace TodoListWebApp.Controllers
                 ViewBag.ErrorMessage = "AuthorizationRequired";
                 return View(itemList);
             }
+
             //
             // If the call failed for any other reason, show the user an error.
             //
