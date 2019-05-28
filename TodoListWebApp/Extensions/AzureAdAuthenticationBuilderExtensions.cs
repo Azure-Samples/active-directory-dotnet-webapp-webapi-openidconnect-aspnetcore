@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.Authentication
                 options.CallbackPath = _azureOptions.CallbackPath;
                 options.RequireHttpsMetadata = false;
                 options.ClientSecret = _azureOptions.ClientSecret;
-                options.Resource = "https://graph.windows.net"; // AAD graph
+                options.Resource = "https://graph.microsoft.com"; // AAD graph
 
                 // Without overriding the response type (which by default is id_token), the OnAuthorizationCodeReceived event is not called.
                 // but instead OnTokenValidated event is called. Here we request both so that OnTokenValidated is called first which 
