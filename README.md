@@ -99,7 +99,7 @@ As a first step you'll need to:
 1. Select **New registration**.
 1. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `TodoListService-aspnetcore`.
-   - Change **Supported account types** to **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
+   - Change **Supported account types** to **Accounts in any organizational directory**.
    - In the Redirect URI (optional) section, select **Web** in the combo-box and enter the following redirect URIs: `https://localhost:44351/`.
 1. Select **Register** to create the application.
 1. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
@@ -123,16 +123,13 @@ As a first step you'll need to:
      - Keep **State** as `Enabled`
      - Select **Add scope**
 
-1. Select the **Manifest** section, and:
-    - For the key `accessTokenAcceptedVersion`, change the value to `null`.
-
 #### Register the client app (TodoListWebApp-aspnetcore)
 
 1. Navigate to the Microsoft identity platform for developers [App registrations](https://go.microsoft.com/fwlink/?linkid=2083908) page.
 1. Select **New registration**.
 1. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `TodoListWebApp-aspnetcore`.
-   - Change **Supported account types** to **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
+   - Change **Supported account types** to **Accounts in any organizational directory**.
      > Note that there are more than one redirect URIs. You'll need to add them from the **Authentication** tab later after the app has been created successfully.
 1. Select **Register** to create the application.
 1. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
@@ -158,9 +155,6 @@ As a first step you'll need to:
    - In the list of APIs, select the API `TodoListService-aspnetcore`.
    - In the **Delegated permissions** section, ensure that the right permissions are checked: **user_impersonation**.
    - Select the **Add permissions** button.
-
-1. Select the **Manifest** section, and:
-    - For the key `accessTokenAcceptedVersion`, change the value to `null`.
 
 #### Configure authorized client applications for service (TodoListService-aspnetcore)
 
