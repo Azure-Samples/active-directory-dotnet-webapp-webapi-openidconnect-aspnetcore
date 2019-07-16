@@ -230,6 +230,7 @@ Function ConfigureApplications
                                                   -HomePage "https://localhost:44377/" `
                                                   -LogoutUrl "https://localhost:44371/Account/EndSession" `
                                                   -ReplyUrls "https://localhost:44377/", "https://localhost:44377/signin-oidc" `
+                                                  -IdentifierUris "https://$tenantName/TodoListWebApp-aspnetcore" `
                                                   -AvailableToOtherTenants $True `
                                                   -PasswordCredentials $key `
                                                   -Oauth2AllowImplicitFlow $true `
@@ -290,7 +291,8 @@ Function ConfigureApplications
    # Update config file for 'client'
    $configFile = $pwd.Path + "\..\TodoListWebApp\appsettings.json"
    Write-Host "Updating the sample code ($configFile)"
-   $dictionary = @{ "Domain" = $tenantName;"TenantId" = $tenantId;"ClientId" = $clientAadApplication.AppId;"ClientSecret" = $clientAppKey;"TodoListResourceId" = $serviceIdentifierUri };
+   
+   $dictionary = @{ "Domain" = $tenantName;"TenantId" = $tenantId;"ClientId" = $clientAadApplication.AppId;"TodoListResourceId" = $serviceIdentifierUri;"ClientSecret" = $clientAppKey; };
    UpdateTextFile -configFilePath $configFile -dictionary $dictionary
   
    Add-Content -Value "</tbody></table></body></html>" -Path createdApps.html  

@@ -54,56 +54,144 @@ From your shell or command line:
 git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-webapi-openidconnect-aspnetcore.git
 ```
 
-### Step 2: Register the sample with the Azure Active Directory tenant
+### Step 2:  Register the sample application with your Azure Active Directory tenant
 
-There are two projects in this sample.  Each needs to be registered in your Azure AD tenant.
+There are two projects in this sample. Each needs to be separately registered in your Azure AD tenant. To register these projects, you can:
 
-#### Register the **TodoListService** web API
+- either follow the steps [Step 2: Register the sample with your Azure Active Directory tenant](#step-2-register-the-sample-with-your-azure-active-directory-tenant) and [Step 3:  Configure the sample to use your Azure AD tenant](#choose-the-azure-ad-tenant-where-you-want-to-create-your-applications)
+- or use PowerShell scripts that:
+  - **automatically** creates the Azure AD applications and related objects (passwords, permissions, dependencies) for you
+  - modify the Visual Studio projects' configuration files.
 
-1. Sign in to the [Azure portal](https://portal.azure.com).
-1. On the top bar, click on the signed-in account. Under **Directory**, select the Azure AD tenant where the app will be registered.
-1. In the navigation on the left, select **More Services >**. Scroll down and select **Azure Active Directory**.
-1. Select **App registrations** and then select **+ New application registration**.
-1. Enter *TodoListService* for **Name**.  For **Application type**, select *Web app / API'. For **Sign-on URL**, enter the base URL for the sample web API project (by default `https://localhost:44351`). Select the **Create** button to create the app registration. 
-1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the following information for reference in later steps:
-    - The domain of the Azure AD tenant in **App ID URI**. Only the domain, such as `contoso.onmicrosoft.com` is required. Omit the rest of the URI. 
-    - **Application ID**
-1. Return to the list of app registrations. Select the **Endpoints** button. Note the GUID (formatted `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`) from any of the endpoint URLs. This is the **Tenant ID**. Omit the rest of the URL.
+If you want to use this automation:
 
-> [!NOTE]
-> By default, the list of app registrations is filtered to *My apps*. To see the app that was just registered, select *All apps*. in the filter dropdown near the top of the blade.
+1. On Windows, run PowerShell and navigate to the root of the cloned directory
+1. In PowerShell run:
 
-#### Register the TodoListWebApp web application
+   ```PowerShell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
+   ```
 
-1. Return to the list of app registrations. Select **+ New application registration**.
-1. Enter *TodoListWebApp* for **Name**. For **Application type**, select *Web app / API*. For **Sign-on URL**, enter the base URL for the sample web app project (by default `http://localhost:17945/signin-oidc`). Select the **Create** button to create the app registration.  
-1. From the list of app registrations, select the newly created application, select **Settings**, and then select **Properties**. Note the **Application ID** for reference in later steps.
-1. On the same blade, set the `Logout Url` property to `https://localhost:44371/Account/EndSession`. Select **Save**. 
-1. From the **Settings** blade, select **Keys**. Add a new key by entering a key description and duration of either 1 year or 2 years. Select **Save**. Note the displayed key value for later steps. Be sure the key value is copied correctly, as it is will not be displayed again. Should the key value be lost, a new key must be created. 
-4. From the **Settings** blade, select **Required permissions**. Select **+ Add**, and then select **Select an API**. Type *TodoListService* in the textbox and press **Enter**. Select the web API from the list and then select the **Select** button. Select **Select Permissions**. Tick the checkbox next to **Access TodoListService** and then select the **Select** button. Select the **Done** button.
-5. In the **Settings** blade, under **API Access**, select **Required permissions**. Click on the **Grant Permissions** and when prompted press **Yes**. Once the web app is granted access to the webapi you should see the following message: *Successfully granted permissions to the application for your account. To grant permissions for all users, please have an admin consent to the application.*
+1. Run the script to create your Azure AD application and configure the code of the sample application accordingly.
+1. In PowerShell run:
 
-### Step 3: Configure the sample to use the Azure AD tenant
+   ```PowerShell
+   .\AppCreationScripts\Configure.ps1
+   ```
 
-#### Configure the TodoListService project
+   > Other ways of running the scripts are described in [App Creation Scripts](./AppCreationScripts/AppCreationScripts.md)
 
-1. Open the solution in Visual Studio.
-1. In the **TodoListService** project, open the `appsettings.json` file.
-1. Find the `Domain` property and replace the value with the AAD tenant domain.
-1. Find the `TenantId` property and replace the value with the **Tenant ID**. 
-1. Find the `ClientId` property and replace the value with the **Application ID** property of the TodoListService application.
+1. Open the Visual Studio solution and click start to run the code.
 
-#### Configure the TodoListWebApp project
+If you don't want to use this automation, follow the steps below.
 
-> [!WARNING]
-> Follow these steps carefully. The **Application ID** property of both app registrations are used below.
+#### Choose the Azure AD tenant where you want to create your applications
 
-1. In the **TodoListWebApp** project, open the `appsettings.json` file.
-1. Find the `Domain` property and replace the value with the AAD tenant domain.
-1. Find the `TenantId` property and replace the value with the **Tenant ID**. 
-1. Find the `ClientId` property and replace the value with the **Application ID** of the *TodoListWebApp* app.
-1. Find the `ClientSecret` and replace the value with the key value for the *TodoListWebApp* app.
-1. Find the `TodoListResourceId` property and replace the value with the **Application ID** of the *TodoListService* app
+As a first step you'll need to:
+
+1. Sign in to the [Azure portal](https://portal.azure.com) using either a work or school account or a personal Microsoft account.
+1. If your account is present in more than one Azure AD tenant, select your profile at the top right corner in the menu on top of the page, and then **switch directory**.
+   Change your portal session to the desired Azure AD tenant.
+
+#### Register the service app (TodoListService-aspnetcore)
+
+1. Navigate to the Microsoft identity platform for developers [App registrations](https://go.microsoft.com/fwlink/?linkid=2083908) page.
+1. Select **New registration**.
+1. When the **Register an application page** appears, enter your application's registration information:
+   - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `TodoListService-aspnetcore`.
+   - Change **Supported account types** to **Accounts in any organizational directory**.
+   - In the Redirect URI (optional) section, select **Web** in the combo-box and enter the following redirect URIs: `https://localhost:44351/`.
+1. Select **Register** to create the application.
+1. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
+1. Select the **API permissions** section
+   - Click the **Add a permission** button and then,
+   - Ensure that the **Microsoft APIs** tab is selected
+   - In the *Commonly used Microsoft APIs* section, click on **Microsoft Graph**
+   - In the **Delegated permissions** section, ensure that the right permissions are checked: **User.Read**. Use the search box if necessary.
+   - Select the **Add permissions** button
+
+1. Select the **Expose an API** section, and:
+   - Select **Add a scope**
+   - Accept the proposed Application ID URI (api://{clientId}) by selecting **Save and Continue**
+   - Enter the following parameters
+     - for **Scope name** use `user_impersonation`
+     - Keep `Admins and users` for **Who can consent**
+     - in **Admin consent display name** type `Access TodoListService-aspnetcore as a user`
+     - in **Admin consent description** type `Accesses the TodoListService-aspnetcore Web API as a user`
+     - in **User consent display name** type `Access TodoListService-aspnetcore as a user`
+     - in **User consent description** type `Accesses the TodoListService-aspnetcore Web API as a user`
+     - Keep **State** as `Enabled`
+     - Select **Add scope**
+
+#### Register the client app (TodoListWebApp-aspnetcore)
+
+1. Navigate to the Microsoft identity platform for developers [App registrations](https://go.microsoft.com/fwlink/?linkid=2083908) page.
+1. Select **New registration**.
+1. When the **Register an application page** appears, enter your application's registration information:
+   - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `TodoListWebApp-aspnetcore`.
+   - Change **Supported account types** to **Accounts in any organizational directory**.
+     > Note that there are more than one redirect URIs. You'll need to add them from the **Authentication** tab later after the app has been created successfully.
+1. Select **Register** to create the application.
+1. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
+1. From the app's Overview page, select the **Authentication** section.
+   - In the Redirect URIs section, select **Web** in the combo-box and enter the following redirect URIs.
+       - `https://localhost:44377/`
+       - `https://localhost:44377/signin-oidc`
+   - In the **Advanced settings** section set **Logout URL** to `https://localhost:44371/Account/EndSession`
+   - In the **Advanced settings** | **Implicit grant** section, check **ID tokens** and **Access Tokens** as this sample requires
+     the [Implicit grant flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to be enabled to
+     sign-in the user, and call an API.
+1. Select **Save**.
+1. From the **Certificates & secrets** page, in the **Client secrets** section, choose **New client secret**:
+
+   - Type a key description (of instance `app secret`),
+   - Select a key duration of either **In 1 year**, **In 2 years**, or **Never Expires**.
+   - When you press the **Add** button, the key value will be displayed, copy, and save the value in a safe location.
+   - You'll need this key later to configure the project in Visual Studio. This key value will not be displayed again, nor retrievable by any other means,
+     so record it as soon as it is visible from the Azure portal.
+1. Select the **API permissions** section
+   - Click the **Add a permission** button and then:
+   - Ensure that the **My APIs** tab is selected
+   - In the list of APIs, select the API `TodoListService-aspnetcore`.
+   - In the **Delegated permissions** section, ensure that the right permissions are checked: **user_impersonation**.
+   - Select the **Add permissions** button.
+
+#### Configure authorized client applications for service (TodoListService-aspnetcore)
+
+For the middle tier web API (`TodoListService-aspnetcore`) to be able to call the downstream web APIs, the user must grant the middle tier permission to do so in the form of consent.
+However, since the middle tier has no interactive UI of its own, you need to explicitly bind the client app registration in Azure AD, with the registration for the web API.
+This binding merges the consent required by both the client and middle tier into a single dialog, which will be presented to the user by the client.
+You can do so by adding the "Client ID" of the client app, to the manifest of the web API in the `knownClientApplications` property. Here's how:
+
+1. In the [Azure portal](https://portal.azure.com), navigate to your `TodoListService-aspnetcore` app registration, and in the **Expose an API** section, click on **Add a client application**.
+   Input the client ID of the client application (`TodoListWebApp-aspnetcore`) and check **user_impersonation** for authorized scopes.
+1. Click **Add application**
+
+### Step 3:  Configure the sample to use your Azure AD tenant
+
+In the steps below, "ClientID" is the same as "Application ID" or "AppId".
+
+Open the solution in Visual Studio to configure the projects
+
+#### Configure the service project
+
+> Note: if you used the setup scripts, the changes below will have been applied for you
+
+1. Open the `TodoListService\appsettings.json` file
+1. Find the app key `Domain` and replace the existing value with your Azure AD tenant name.
+1. Find the app key `TenantId` and replace the existing value with your Azure AD tenant ID.
+1. Find the app key `ClientId` and replace the existing value with the application ID (clientId) of the `TodoListService-aspnetcore` application copied from the Azure portal.
+
+#### Configure the client project
+
+> Note: if you used the setup scripts, the changes below will have been applied for you
+
+1. Open the `TodoListWebApp\appsettings.json` file
+1. Find the app key `Domain` and replace the existing value with your Azure AD tenant name.
+1. Find the app key `TenantId` and replace the existing value with your Azure AD tenant ID.
+1. Find the app key `ClientId` and replace the existing value with the application ID (clientId) of the `TodoListWebApp-aspnetcore` application copied from the Azure portal.
+1. Find the app key `ClientSecret` and replace the existing value with the key you saved during the creation of the `TodoListWebApp-aspnetcore` app, in the Azure portal.
+1. Find the app key `TodoListResourceId` and replace the existing value with `api://{TodoListService_ClientId}`.
 
 ### Step 4: Run the sample
 
