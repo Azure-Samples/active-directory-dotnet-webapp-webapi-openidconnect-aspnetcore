@@ -1,11 +1,12 @@
 ---
-services: active-directory
-platforms: dotnet
-author: jmprieur
-level: 300
-client: ASP.NET Core 2.0
-service: ASP.NET Core 2.0
-endpoint: AAD V1
+page_type: sample
+languages:
+  - csharp
+products:
+  - azure-active-directory
+  - aspnet-core
+description:
+  - This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD.
 ---
 # Calling a web API in an ASP.NET Core web application using Azure AD
 ## About this sample
