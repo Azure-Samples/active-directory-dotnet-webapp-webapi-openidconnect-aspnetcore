@@ -5,8 +5,7 @@ languages:
 products:
   - azure-active-directory
   - aspnet-core
-description:
-  - This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD.
+description: This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD.
 ---
 # Calling a web API in an ASP.NET Core web application using Azure AD
 ## About this sample
