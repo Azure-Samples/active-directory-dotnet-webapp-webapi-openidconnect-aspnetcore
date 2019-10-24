@@ -5,9 +5,13 @@ languages:
 products:
   - azure-active-directory
   - aspnet-core
+  - dotnet
+urlFragment: calling-a-web-api-in-an-aspnet-core-web-application-using-azure-ad
 description: This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD.
 ---
-# Calling a web API in an ASP.NET Core web application using Azure AD
+
+# Call a web API in an ASP.NET Core web app using Azure AD
+
 ## About this sample
 ### Scenario
 This sample contains a web API running on ASP.NET Core 2.0 protected by Azure AD. The web API is accessed by an ASP.NET Core 2.0 web application on behalf of the signed-in user. The ASP.NET Web application uses the OpenID Connect middleware and the Active Directory Authentication Library (ADAL.NET) to obtain a JWT bearer token for the signed-in user using the [OAuth 2.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-oauth-code) protocol. The bearer token is passed to the web API, which validates the token and authorizes the user using the JWT bearer authentication middleware.
